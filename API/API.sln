@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "course_project_spring_2023_api", "course_project_spring_2023_api\course_project_spring_2023_api.csproj", "{14B0876D-0754-4024-BA4E-F308AC368B1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "course_project_spring_2023_api", "course_project_spring_2023_api\course_project_spring_2023_api.csproj", "{14B0876D-0754-4024-BA4E-F308AC368B1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +18,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {22A6D015-5318-430A-A24D-E3F134209D5F}
 	EndGlobalSection
 EndGlobal

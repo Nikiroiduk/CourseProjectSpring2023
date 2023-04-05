@@ -1,12 +1,12 @@
 ﻿using course_project_spring_2023_api.Models;
 
-namespace course_project_spring_2023_api.Services
+namespace course_project_spring_2023_api.Services.PersonServices
 {
     public interface IPersonService
     {
-        Person Authenticate(string username, string password);
+        Person? Authenticate(string username, string password);
         IEnumerable<Person> GetAll();
-        Person GetById(int id);
+        Person? GetById(int id);
         public Person Registrate(Person user);
     }
 }

@@ -11,9 +11,9 @@ namespace course_project_spring_2023_api.Helpers
             return persons.Select(x => x.WithoutPassword());
         }
 
-        public static Person WithoutPassword(this Person person)
+        public static Person? WithoutPassword(this Person? person)
         {
-            if (person == null) return Person.Empty;
+            if (person == null) return null;
 
             person.Password = string.Empty;
             return person;

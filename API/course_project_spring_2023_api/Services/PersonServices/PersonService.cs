@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace course_project_spring_2023_api.Services
+namespace course_project_spring_2023_api.Services.PersonServices
 {
     public class PersonService : IPersonService
     {
@@ -15,7 +15,7 @@ namespace course_project_spring_2023_api.Services
         private List<Person> _persons = new List<Person>
         {
             new Person { Id = 1, FirstName = "Admin", LastName = "Admin", Username = "admin", Password = "admin", IsNewPerson = false, Role = Role.Admin },
-            new User { Id = 2, FirstName = "User", LastName = "User", Username = "user", Password = "user", BirthDay = DateTime.Now, Weight = 80, Height = 180, IsNewPerson = false, Role = Role.User }
+            new User { Id = 2, FirstName = "User", LastName = "User", Username = "user", Password = "user", BirthDay = DateTime.Now, Weight = 80, Height = 180, IsNewPerson = false, Role = Role.User },
         };
 
         private readonly AppSettings _appSettings;
@@ -25,12 +25,12 @@ namespace course_project_spring_2023_api.Services
             _appSettings = appSettings.Value;
         }
 
-        public Person Authenticate(string username, string password)
+        public Person? Authenticate(string username, string password)
         {
             var person = _persons.SingleOrDefault(x => x.Username == username && x.Password == password);
 
             // TODO: Override == & !=
-            if (person == null) return Person.Empty;
+            if (Equals(person, null)) return null;
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
@@ -52,10 +52,11 @@ namespace course_project_spring_2023_api.Services
 
         public IEnumerable<Person> GetAll() => _persons.WithoutPasswords();
 
-        public Person GetById(int id)
+        public Person? GetById(int id)
         {
             var person = _persons.FirstOrDefault(x => x.Id == id);
             return person.WithoutPassword();
+            //return person;
         }
 
         public Person Registrate(Person person)

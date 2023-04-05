@@ -33,7 +33,7 @@ namespace course_project_spring_2023_api.Models
         public string Role { get; set; } = "User";
 
         [JsonIgnore]
-        public string Token { get; set; } = "Default";
+        public string Token { get; set; } = "Default token value";
 
         [JsonIgnore]
         public bool IsNewPerson { get; set; } = true;

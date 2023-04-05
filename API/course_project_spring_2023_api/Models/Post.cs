@@ -6,7 +6,7 @@ namespace course_project_spring_2023_api.Models
     {
         [Required]
         public long Id { get; set; }
-        
+                
         [Required]
         public string Name { get; set; } = "Default";
         

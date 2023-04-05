@@ -1,7 +1,8 @@
 using course_project_spring_2023_api.Models;
-using course_project_spring_2023_api.Services;
+using course_project_spring_2023_api.Services.PersonServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace course_project_spring_2023_api.Controllers
 {
@@ -23,10 +24,16 @@ namespace course_project_spring_2023_api.Controllers
         {
             var person = _personService.Authenticate(model.Username, model.Password);
 
-            if (person == Person.Empty)
+            if (Equals(person, null))
                 return BadRequest(new { message = "Username or password is incorrect" });
 
-            return Ok(person.Token);
+            var response = new
+            {
+                id = person.Id,
+                token = person.Token
+            };
+
+            return Ok(response);
             //return Ok(person);
         }
 
@@ -58,17 +65,17 @@ namespace course_project_spring_2023_api.Controllers
             return Ok(persons);
         }
 
-        [HttpGet("{id}")]
+        [Authorize(Roles = $"{Role.Admin}, {Role.User}")]
+        [HttpGet("{id?}")]
         public IActionResult GetById(int id)
         {
-            // only allow admins to access other user records
             var currentUserId = int.Parse(User.Identity.Name);
-            if (id != currentUserId && !User.IsInRole(Role.Admin))
-                return Forbid();
+            if (currentUserId != id && User.IsInRole(Role.User))
+                return Unauthorized();
 
             var user = _personService.GetById(id);
 
-            if (user == null)
+            if (Equals(user, null))
                 return NotFound();
 
             return Ok(user);

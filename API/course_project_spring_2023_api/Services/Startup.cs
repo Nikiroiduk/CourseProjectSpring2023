@@ -1,4 +1,6 @@
 ﻿using course_project_spring_2023_api.Helpers;
+using course_project_spring_2023_api.Services.PersonServices;
+using course_project_spring_2023_api.Services.PostServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Configuration;
@@ -20,11 +22,9 @@ namespace course_project_spring_2023_api.Services
             services.AddCors();
             services.AddControllers();
 
-            // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
 
-            // configure jwt authentication
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
             services.AddAuthentication(x =>
@@ -45,16 +45,14 @@ namespace course_project_spring_2023_api.Services
                 };
             });
 
-            // configure DI for application services
             services.AddScoped<IPersonService, PersonService>();
+            services.AddScoped<IPostService, PostService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseRouting();
 
-            // global cors policy
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
