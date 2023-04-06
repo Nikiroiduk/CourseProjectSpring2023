@@ -6,7 +6,10 @@ namespace course_project_spring_2023_api.Models
     {
         [Required]
         public long Id { get; set; }
-                
+
+        [Required]
+        public long TrainingCourseId { get; set; }
+
         [Required]
         public string Name { get; set; } = "Default";
         
@@ -26,7 +29,7 @@ namespace course_project_spring_2023_api.Models
         public string ShortDescription { get; set; } = "Undefined";
 
         [Required]
-        public TrainingCourse TrainingCourse { get; set; } = TrainingCourse.Empty;
+        public TrainingCourse TrainingCourse { get; set; }
         
         public string Description { get; set; } = "Undefined";
         public string Thumbnail { get; set; } = "Path";

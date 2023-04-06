@@ -1,6 +1,8 @@
-﻿using course_project_spring_2023_api.Helpers;
+﻿using course_project_spring_2023_api.Context;
+using course_project_spring_2023_api.Helpers;
 using course_project_spring_2023_api.Models;
-using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,13 +13,6 @@ namespace course_project_spring_2023_api.Services.PersonServices
 {
     public class PersonService : IPersonService
     {
-        // users hardcoded for simplicity, store in a db with hashed passwords in production applications
-        private List<Person> _persons = new List<Person>
-        {
-            new Person { Id = 1, FirstName = "Admin", LastName = "Admin", Username = "admin", Password = "admin", IsNewPerson = false, Role = Role.Admin },
-            new User { Id = 2, FirstName = "User", LastName = "User", Username = "user", Password = "user", BirthDay = DateTime.Now, Weight = 80, Height = 180, IsNewPerson = false, Role = Role.User },
-        };
-
         private readonly AppSettings _appSettings;
 
         public PersonService(IOptions<AppSettings> appSettings)
@@ -25,11 +20,10 @@ namespace course_project_spring_2023_api.Services.PersonServices
             _appSettings = appSettings.Value;
         }
 
-        public Person? Authenticate(string username, string password)
+        public async Task<Person?> Authenticate(string username, string password, ApiContext db)
         {
-            var person = _persons.SingleOrDefault(x => x.Username == username && x.Password == password);
+            var person = await db.Persons.FirstOrDefaultAsync(x => x.Username == username && x.Password == password);
 
-            // TODO: Override == & !=
             if (Equals(person, null)) return null;
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -50,19 +44,46 @@ namespace course_project_spring_2023_api.Services.PersonServices
             return person.WithoutPassword();
         }
 
-        public IEnumerable<Person> GetAll() => _persons.WithoutPasswords();
+        public async Task<IEnumerable<Person>?> GetAll(ApiContext db) =>
+            await db.Persons.ToListAsync();
 
-        public Person? GetById(int id)
+        public async Task<Person?> GetById(int id, ApiContext db)
         {
-            var person = _persons.FirstOrDefault(x => x.Id == id);
-            return person.WithoutPassword();
-            //return person;
-        }
-
-        public Person Registrate(Person person)
-        {
-            _persons.Add(person);
+            var person = await db.Persons.FindAsync((long)id);
             return person;
         }
+
+        public async Task<Person?> Registrate(Person person, ApiContext db)
+        {
+            var p = await db.Persons.AddAsync(person);
+            if (!Equals(p, null)) await db.SaveChangesAsync();
+            return p?.Entity;
+        }
+
+        //public async Task<bool> UpsertUser(User user, ApiContext db)
+        //{
+        //    //TODO: if user will change email then it doesn't work (id don't work in this case either)
+        //    var cur = await db.Persons.FirstOrDefaultAsync(x => x.Id == user.Id);
+        //    if (Equals(cur, null))
+        //        return false;
+        //    if (cur.Role == Role.User)
+        //        return true;
+        //    if (cur is not User u)
+        //        return false;
+        //    else
+        //    {
+        //        u.Courses = user.Courses;
+        //        u.Height = user.Height;
+        //        u.Weight = user.Weight;
+        //        u.BirthDay = user.BirthDay;
+        //        u.Username = user.Username;
+        //        u.FirstName = user.FirstName;
+        //        u.LastName = user.LastName;
+        //        u.Email = user.Email;
+        //        db.Persons.Update(cur);
+        //        await db.SaveChangesAsync();
+        //        return true;
+        //    }
+        //}
     }
 }

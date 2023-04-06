@@ -1,7 +1,9 @@
-﻿using course_project_spring_2023_api.Helpers;
+﻿using course_project_spring_2023_api.Context;
+using course_project_spring_2023_api.Helpers;
 using course_project_spring_2023_api.Services.PersonServices;
 using course_project_spring_2023_api.Services.PostServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Configuration;
 using System.Text;
@@ -21,6 +23,9 @@ namespace course_project_spring_2023_api.Services
         {
             services.AddCors();
             services.AddControllers();
+
+            services.AddDbContext<ApiContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);

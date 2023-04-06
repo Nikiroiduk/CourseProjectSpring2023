@@ -1,3 +1,4 @@
+using course_project_spring_2023_api.Context;
 using course_project_spring_2023_api.Models;
 using course_project_spring_2023_api.Services.PersonServices;
 using Microsoft.AspNetCore.Authorization;
@@ -12,17 +13,19 @@ namespace course_project_spring_2023_api.Controllers
     public class PersonsController : ControllerBase
     {
         private IPersonService _personService;
+        private ApiContext _context;
 
-        public PersonsController(IPersonService personService)
+        public PersonsController(IPersonService personService, ApiContext context)
         {
             _personService = personService;
+            _context = context;
         }
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody] AuthenticateModel model)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
         {
-            var person = _personService.Authenticate(model.Username, model.Password);
+            var person = await _personService.Authenticate(model.Username, model.Password, _context);
 
             if (Equals(person, null))
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -39,9 +42,9 @@ namespace course_project_spring_2023_api.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register([FromBody] Person person)
+        public async Task<IActionResult> Register([FromBody] Person person)
         {
-            var _person = _personService.Registrate(person);
+            var _person = await _personService.Registrate(person, _context);
             if (_person == null)
                 return BadRequest(new { message = "Entered data is wrong" });
             return Ok(_person);
@@ -51,7 +54,7 @@ namespace course_project_spring_2023_api.Controllers
         [HttpPost("admin_register")]
         public IActionResult AdminRegister([FromBody] PowerUser powerUser)
         {
-            var _powerUser = _personService.Registrate(powerUser);
+            var _powerUser = _personService.Registrate(powerUser, _context);
             if (_powerUser == null)
                 return BadRequest(new { message = "Entered data is wrong" });
             return Ok(_powerUser);
@@ -59,26 +62,37 @@ namespace course_project_spring_2023_api.Controllers
 
         [Authorize(Roles = Role.Admin)]
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var persons = _personService.GetAll();
+            var persons = await _personService.GetAll(_context);
             return Ok(persons);
         }
 
         [Authorize(Roles = $"{Role.Admin}, {Role.User}")]
         [HttpGet("{id?}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             var currentUserId = int.Parse(User.Identity.Name);
             if (currentUserId != id && User.IsInRole(Role.User))
                 return Unauthorized();
 
-            var user = _personService.GetById(id);
+            var user = await _personService.GetById(id, _context);
 
             if (Equals(user, null))
                 return NotFound();
 
             return Ok(user);
         }
+
+        //[Authorize(Roles = $"{Role.Admin}, {Role.User}")]
+        //[HttpPut("upsert")]
+        //public async Task<IActionResult> UpsertUser([FromBody] User user)
+        //{
+        //    var id = int.Parse(User.Identity.Name);
+        //    if (User.IsInRole(Role.User) && id != user.Id)
+        //        return Unauthorized();
+        //    var r = await _personService.UpsertUser(user, _context);
+        //    return r ? Ok(r) : BadRequest(r);
+        //}
     }
 }

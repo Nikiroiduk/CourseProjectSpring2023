@@ -1,4 +1,5 @@
-﻿using course_project_spring_2023_api.Models;
+﻿using course_project_spring_2023_api.Context;
+using course_project_spring_2023_api.Models;
 using course_project_spring_2023_api.Services.PostServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,17 +12,19 @@ namespace course_project_spring_2023_api.Controllers
     public class PostsController : ControllerBase
     {
         private IPostService _postService;
+        private ApiContext _context;
 
-        public PostsController(IPostService postService)
+        public PostsController(IPostService postService, ApiContext context)
         {
             _postService = postService;
+            _context = context;
         }
 
         [Authorize(Roles = Role.Admin)]
         [HttpPost("addpost")]
-        public IActionResult AdminRegister([FromBody] Post post)
+        public async Task<IActionResult> AdminRegister([FromBody] Post post)
         {
-            var _post = _postService.CreatePost(post);
+            var _post = await _postService.CreatePost(post, _context);
             if (_post == null)
                 return BadRequest(new { message = "Entered data is wrong" });
             return Ok(_post);
@@ -29,17 +32,17 @@ namespace course_project_spring_2023_api.Controllers
 
         [Authorize(Roles = $"{Role.Admin}, {Role.User}")]
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var posts = _postService.GetAll();
+            var posts = await _postService.GetAll(_context);
             return Ok(posts);
         }
 
         [Authorize(Roles = $"{Role.Admin}, {Role.User}")]
         [HttpGet("{id?}")]
-        public IActionResult GetById(int id) 
+        public async Task<IActionResult> GetById(int id) 
         {
-            var post = _postService.GetById(id);
+            var post = await _postService.GetById(id, _context);
             if (Equals(post, null))
                 return NotFound();
 

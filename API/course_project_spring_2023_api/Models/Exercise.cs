@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace course_project_spring_2023_api.Models
 {
@@ -6,11 +7,13 @@ namespace course_project_spring_2023_api.Models
     {
         [Required]
         public long Id { get; set; }
-        
+
         [Required]
-        public IEnumerable<uint> Repetitions { get; set; } = new List<uint>(); //number of repetitions
-        
-        [Required]
-        public IEnumerable<uint> Timeout { get; set; } = new List<uint>(); //seconds of rest
+        public ICollection<Repetition> Repetitions { get; set; } 
+
+        //[Required]
+        //public ICollection<int> Timeout { get; set; } //seconds of rest
+
+        //public TrainingCourse TrainingCourse { get; set; }
     }
 }

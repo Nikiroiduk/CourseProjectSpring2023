@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace course_project_spring_2023_api.Models
 {
@@ -7,12 +8,13 @@ namespace course_project_spring_2023_api.Models
     {
         [Required]
         public long Id { get; set; }
-        
+
         [Required]
         public string Name { get; set; } = "Default";
         
         [Required]
-        public IEnumerable<Exercise> Exercises { get; set; } = new List<Exercise>();
+        public ICollection<Exercise> Exercises { get; set; } = new List<Exercise>();
+
 
         public TrainingCourse(){}
 

@@ -35,7 +35,7 @@ namespace course_project_spring_2023_api.Models
         [JsonIgnore]
         public string Token { get; set; } = "Default token value";
 
-        [JsonIgnore]
+        //[JsonIgnore]
         public bool IsNewPerson { get; set; } = true;
 
         public Person(){}

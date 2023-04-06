@@ -13,7 +13,6 @@ namespace course_project_spring_2023_api.Models
         [Required]
         public double Height { get; set; }
 
-        public IEnumerable<TrainingCourse>? CompletedCourses { get; set; }
-        public IEnumerable<TrainingCourse>? ActiveCourses { get; set; }
+        public ICollection<TrainingCourse>? Courses { get; set; }
     }
 }
