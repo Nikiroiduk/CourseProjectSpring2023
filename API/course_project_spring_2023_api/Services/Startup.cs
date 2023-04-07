@@ -2,6 +2,7 @@
 using course_project_spring_2023_api.Helpers;
 using course_project_spring_2023_api.Services.PersonServices;
 using course_project_spring_2023_api.Services.PostServices;
+using course_project_spring_2023_api.Services.UserServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -52,6 +53,7 @@ namespace course_project_spring_2023_api.Services
 
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

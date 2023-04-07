@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace course_project_spring_2023_api.Models
 {
@@ -8,6 +9,7 @@ namespace course_project_spring_2023_api.Models
         public long Id { get; set; }
 
         [Required]
+        [JsonIgnore]
         public long TrainingCourseId { get; set; }
 
         [Required]
@@ -29,7 +31,7 @@ namespace course_project_spring_2023_api.Models
         public string ShortDescription { get; set; } = "Undefined";
 
         [Required]
-        public TrainingCourse TrainingCourse { get; set; }
+        public TrainingCourse TrainingCourse { get; set; } = TrainingCourse.Empty;
         
         public string Description { get; set; } = "Undefined";
         public string Thumbnail { get; set; } = "Path";

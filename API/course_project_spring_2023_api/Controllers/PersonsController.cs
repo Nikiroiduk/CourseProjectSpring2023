@@ -3,6 +3,7 @@ using course_project_spring_2023_api.Models;
 using course_project_spring_2023_api.Services.PersonServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace course_project_spring_2023_api.Controllers
@@ -42,7 +43,7 @@ namespace course_project_spring_2023_api.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] Person person)
+        public async Task<IActionResult> Register([FromBody] RegistrationModel person)
         {
             var _person = await _personService.Registrate(person, _context);
             if (_person == null)
@@ -50,15 +51,15 @@ namespace course_project_spring_2023_api.Controllers
             return Ok(_person);
         }
 
-        [Authorize(Roles = Role.Admin)]
-        [HttpPost("admin_register")]
-        public IActionResult AdminRegister([FromBody] PowerUser powerUser)
-        {
-            var _powerUser = _personService.Registrate(powerUser, _context);
-            if (_powerUser == null)
-                return BadRequest(new { message = "Entered data is wrong" });
-            return Ok(_powerUser);
-        }
+        //[Authorize(Roles = Role.Admin)]
+        //[HttpPost("admin_register")]
+        //public IActionResult AdminRegister([FromBody] PowerUser powerUser)
+        //{
+        //    var _powerUser = _personService.Registrate(powerUser, _context);
+        //    if (_powerUser == null)
+        //        return BadRequest(new { message = "Entered data is wrong" });
+        //    return Ok(_powerUser);
+        //}
 
         [Authorize(Roles = Role.Admin)]
         [HttpGet("getall")]
@@ -68,7 +69,7 @@ namespace course_project_spring_2023_api.Controllers
             return Ok(persons);
         }
 
-        [Authorize(Roles = $"{Role.Admin}, {Role.User}")]
+        [Authorize(Roles = Role.Admin)]
         [HttpGet("{id?}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -84,15 +85,27 @@ namespace course_project_spring_2023_api.Controllers
             return Ok(user);
         }
 
-        //[Authorize(Roles = $"{Role.Admin}, {Role.User}")]
-        //[HttpPut("upsert")]
-        //public async Task<IActionResult> UpsertUser([FromBody] User user)
-        //{
-        //    var id = int.Parse(User.Identity.Name);
-        //    if (User.IsInRole(Role.User) && id != user.Id)
-        //        return Unauthorized();
-        //    var r = await _personService.UpsertUser(user, _context);
-        //    return r ? Ok(r) : BadRequest(r);
-        //}
+        [Authorize(Roles = Role.User)]
+        [HttpGet("getuser")]
+        public async Task<IActionResult> GetByIdUser()
+        {
+            var currentUserId = int.Parse(User.Identity.Name);
+            var user = await _personService.GetByIdUser(currentUserId, _context);
+
+            if (Equals(user, null))
+                return NotFound();
+
+            return Ok(user);
+        }
+
+        [Authorize(Roles = $"{Role.Admin}, {Role.User}")]
+        [HttpPut("upsert")]
+        public async Task<IActionResult> UpsertUser([FromBody] User user)
+        {
+            var id = int.Parse(User.Identity.Name);
+            var curUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            var r = await _personService.UpsertUser(curUser, user, _context);
+            return r ? Ok(r) : BadRequest(curUser);
+        }
     }
 }

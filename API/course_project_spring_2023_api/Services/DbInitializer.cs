@@ -45,19 +45,34 @@ namespace course_project_spring_2023_api.Services
                             {
                                 new Exercise
                                 {
-                                    //Repetitions = new List<int>{ 1, 2, 1, 1, 3 },
-                                    //Timeout = new List<int>{ 120, 180, 120, 180 }
+                                    Repetitions = new List<Repetition>{
+                                        new Repetition
+                                        {
+                                            Value = 5,
+                                            Timeout = 30
+                                        } 
+                                    }
                                 },
                                 new Exercise
                                 {
-                                    //Repetitions = new List<int>{ 2, 2, 1, 1, 3 },
-                                    //Timeout = new List<int>{ 120, 180, 120, 180 }
+                                    Repetitions = new List<Repetition>{
+                                        new Repetition
+                                        {
+                                            Value = 10,
+                                            Timeout = 40
+                                        }
+                                    }
                                 },
                                 new Exercise
                                 {
-                                    //Repetitions = new List<int>{ 2, 2, 1, 2, 3 },
-                                    //Timeout = new List<int>{ 120, 180, 120, 180 }
-                                }
+                                    Repetitions = new List<Repetition>{
+                                        new Repetition
+                                        {
+                                            Value = 15,
+                                            Timeout = 50
+                                        }
+                                    }
+                                },
                             }
                         }
                     },

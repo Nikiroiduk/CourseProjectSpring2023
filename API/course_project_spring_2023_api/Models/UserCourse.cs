@@ -1,19 +1,26 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace course_project_spring_2023_api.Models
 {
-    public class Exercise
+    public class UserCourse
     {
         [Required]
         public long Id { get; set; }
 
         [Required]
         [JsonIgnore]
-        public long TrainingCourseId { get; set; }
+        public long UserId { get; set; }
 
         [Required]
-        public ICollection<Repetition> Repetitions { get; set; }
+        public User User { get; set; }
+
+        [Required]
+        public string Name { get; set; } = "Default";
+
+        [Required]
+        public ICollection<Exercise> Exercises { get; set; }
+
+
     }
 }

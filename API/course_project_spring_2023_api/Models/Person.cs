@@ -39,6 +39,13 @@ namespace course_project_spring_2023_api.Models
         public bool IsNewPerson { get; set; } = true;
 
         public Person(){}
+        public Person(RegistrationModel model){
+            FirstName = model.FirstName;
+            LastName = model.LastName;
+            Username = model.Username;
+            Password = model.Password;
+            Email = model.Email;
+        }
 
         public static Person Empty => new Person();
 

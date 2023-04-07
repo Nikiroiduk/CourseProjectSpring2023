@@ -13,6 +13,18 @@ namespace course_project_spring_2023_api.Models
         [Required]
         public double Height { get; set; }
 
-        public ICollection<TrainingCourse>? Courses { get; set; }
+        [Required]
+        public IList<UserCourse> Courses { get; set; } = new List<UserCourse>();
+        
+        public User(){}
+        
+        public User(RegistrationModel model)
+        {
+            FirstName = model.FirstName;
+            LastName = model.LastName;
+            Username = model.Username;
+            Password = model.Password;
+            Email = model.Email;
+        }
     }
 }

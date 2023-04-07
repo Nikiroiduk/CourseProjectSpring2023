@@ -22,7 +22,7 @@ namespace course_project_spring_2023_api.Controllers
 
         [Authorize(Roles = Role.Admin)]
         [HttpPost("addpost")]
-        public async Task<IActionResult> AdminRegister([FromBody] Post post)
+        public async Task<IActionResult> AddPost([FromBody] Post post)
         {
             var _post = await _postService.CreatePost(post, _context);
             if (_post == null)

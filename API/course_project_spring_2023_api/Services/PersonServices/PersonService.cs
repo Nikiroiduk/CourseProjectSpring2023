@@ -53,37 +53,38 @@ namespace course_project_spring_2023_api.Services.PersonServices
             return person;
         }
 
-        public async Task<Person?> Registrate(Person person, ApiContext db)
+        public async Task<User?> GetByIdUser(int id, ApiContext db)
         {
-            var p = await db.Persons.AddAsync(person);
-            if (!Equals(p, null)) await db.SaveChangesAsync();
-            return p?.Entity;
+            var user = await db.Users.FindAsync((long)id);
+            //var trainingCourses = db.TrainingCourses.Where(x => x.UserId == user.Id).ToList();
+            //foreach (var course in trainingCourses)
+            //{
+            //    course.Exercises = db.Exercises.Where(x => x.TrainingCourseId == course.Id).ToList();
+            //}
+            //user.Courses = trainingCourses;
+            return user;
         }
 
-        //public async Task<bool> UpsertUser(User user, ApiContext db)
-        //{
-        //    //TODO: if user will change email then it doesn't work (id don't work in this case either)
-        //    var cur = await db.Persons.FirstOrDefaultAsync(x => x.Id == user.Id);
-        //    if (Equals(cur, null))
-        //        return false;
-        //    if (cur.Role == Role.User)
-        //        return true;
-        //    if (cur is not User u)
-        //        return false;
-        //    else
-        //    {
-        //        u.Courses = user.Courses;
-        //        u.Height = user.Height;
-        //        u.Weight = user.Weight;
-        //        u.BirthDay = user.BirthDay;
-        //        u.Username = user.Username;
-        //        u.FirstName = user.FirstName;
-        //        u.LastName = user.LastName;
-        //        u.Email = user.Email;
-        //        db.Persons.Update(cur);
-        //        await db.SaveChangesAsync();
-        //        return true;
-        //    }
-        //}
+        public async Task<Person?> Registrate(RegistrationModel person, ApiContext db)
+        {
+            var p = new Person(person);
+            var res = await db.Persons.AddAsync(p);
+            await db.SaveChangesAsync();
+            return res?.Entity;
+        }
+
+        public async Task<bool> UpsertUser(User old, User newUser, ApiContext db)
+        {
+            old.Courses = newUser.Courses;
+            old.Height = newUser.Height;
+            old.Weight = newUser.Weight;
+            old.BirthDay = newUser.BirthDay;
+            old.Username = newUser.Username;
+            old.FirstName = newUser.FirstName;
+            old.LastName = newUser.LastName;
+            old.Email = newUser.Email;
+            await db.SaveChangesAsync();
+            return true;
+        }
     }
 }
