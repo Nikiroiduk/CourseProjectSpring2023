@@ -51,9 +51,9 @@ namespace course_project_spring_2023_api.Services
                 };
             });
 
-            services.AddScoped<IPersonService, PersonService>();
-            services.AddScoped<IPostService, PostService>();
-            services.AddScoped<IUserService, UserService>();
+            // services.AddScoped<IPersonService, PersonService>();
+            // services.AddScoped<IPostService, PostService>();
+            // services.AddScoped<IUserService, UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
