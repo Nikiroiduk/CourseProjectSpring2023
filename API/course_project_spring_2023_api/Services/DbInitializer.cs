@@ -7,84 +7,70 @@ namespace course_project_spring_2023_api.Services
     {
         public static void Initialize(ApiContext context)
         {
-            // context.Database.EnsureCreated();
+            context.Database.EnsureCreated();
 
-            // if (!context.Persons.Any())
-            // {
-            //     var persons = new Person[]
-            //     {
-            //         new Person { FirstName = "Admin", LastName = "Admin", Username = "admin", Password = "admin", IsNewPerson = false, Role = Role.Admin },
-            //         new User { FirstName = "User", LastName = "User", Username = "user", Password = "user", BirthDay = DateTime.Now, Weight = 80, Height = 180, IsNewPerson = false, Role = Role.User },
-            //     };
+            if (!context.Persons.Any())
+            {
+                var persons = new Person[]
+                {
+                    new Person
+                    {
+                        Username = "admin",
+                        Password = "admin",
+                        Role = Role.Admin
+                    },
+                    new Person
+                    {
+                        Username = "user",
+                        Password = "user",
+                        Role = Role.User,
+                        Height = 180,
+                        Weight = 80
+                    },
+                    new Person
+                    {
+                        Username = "user1",
+                        Password = "user1",
+                        Role = Role.User,
+                        Height = 200,
+                        Weight = 80,
+                        Courses = new List<Course>()
+                        {
+                            new Course 
+                            { 
+                                Name = "Pull-ups", 
+                                Exercises = new List<Exercise>
+                                {
+                                    new Exercise { Data = "1, 20, 1"},
+                                    new Exercise { Data = "2, 20, 1"},
+                                    new Exercise { Data = "2, 20, 2"},
+                                    new Exercise { Data = "2, 20, 3"},
+                                    new Exercise { Data = "4, 20, 3"},
+                                } 
+                            },
+                            new Course 
+                            { 
+                                Name = "Push-ups",
+                                Exercises = new List<Exercise>
+                                {
+                                    new Exercise { Data = "1, 20, 1"},
+                                    new Exercise { Data = "2, 20, 1"},
+                                    new Exercise { Data = "2, 20, 2"},
+                                    new Exercise { Data = "2, 20, 3"},
+                                    new Exercise { Data = "4, 20, 3"},
+                                }
+                            },
+                        }
+                    }
+                };
 
-            //     foreach (var p in persons)
-            //     {
-            //         context.Persons.Add(p);
-            //     }
-            // }
+                foreach (var person in persons)
+                {
+                    context.Persons.Add(person);
+                }
 
-
-            // if (!context.Posts.Any())
-            // {
-            //     var posts = new Post[]
-            //     {
-            //         new Post
-            //         {
-            //             Description = "Post desc",
-            //             Difficulty = Difficulty.Normal,
-            //             DurationOfOneSession = 30,
-            //             IsNeedEquipment = false,
-            //             Name = "Pull-ups",
-            //             ShortDescription = "Short desc",
-            //             Thumbnail = "Path to file on server or base 64 string who knows",
-            //             TotalDuration = 13,
-            //             TrainingCourse = new TrainingCourse
-            //             {
-            //                 Name = "Pull-ups",
-            //                 Exercises = new List<Exercise>
-            //                 {
-            //                     new Exercise
-            //                     {
-            //                         Repetitions = new List<Repetition>{
-            //                             new Repetition
-            //                             {
-            //                                 Value = 5,
-            //                                 Timeout = 30
-            //                             } 
-            //                         }
-            //                     },
-            //                     new Exercise
-            //                     {
-            //                         Repetitions = new List<Repetition>{
-            //                             new Repetition
-            //                             {
-            //                                 Value = 10,
-            //                                 Timeout = 40
-            //                             }
-            //                         }
-            //                     },
-            //                     new Exercise
-            //                     {
-            //                         Repetitions = new List<Repetition>{
-            //                             new Repetition
-            //                             {
-            //                                 Value = 15,
-            //                                 Timeout = 50
-            //                             }
-            //                         }
-            //                     },
-            //                 }
-            //             }
-            //         },
-            //     };
-
-            //     foreach (var p in posts)
-            //     {
-            //         context.Posts.Add(p);
-            //     }
-            // }
-
-            // context.SaveChanges();
+            }
+            context.SaveChanges();
         }
     }
 }
