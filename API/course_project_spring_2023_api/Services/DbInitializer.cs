@@ -16,13 +16,26 @@ namespace course_project_spring_2023_api.Services
                     new Person
                     {
                         Username = "admin",
-                        Password = "admin",
-                        Role = Role.Admin
+                        PlainPassword = "admin",
+                        Role = Role.Admin,
+                        IsNewUser = false,
+                        Blogs = new List<Blog>()
+                        {
+                            new Blog() 
+                            { 
+                                Name = "Blog 1",
+                                Tags = new List<Tag>()
+                                {
+                                    new Tag() { Name = "News" },
+                                    new Tag() { Name = "Sport" }
+                                }
+                            }
+                        }
                     },
                     new Person
                     {
                         Username = "user",
-                        Password = "user",
+                        PlainPassword = "user",
                         Role = Role.User,
                         Height = 180,
                         Weight = 80
@@ -30,7 +43,7 @@ namespace course_project_spring_2023_api.Services
                     new Person
                     {
                         Username = "user1",
-                        Password = "user1",
+                        PlainPassword = "user1",
                         Role = Role.User,
                         Height = 200,
                         Weight = 80,

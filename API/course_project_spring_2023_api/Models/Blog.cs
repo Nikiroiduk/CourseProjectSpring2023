@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace course_project_spring_2023_api.Models
 {
-    public class Course
+    public class Blog
     {
         [Required]
         public int Id { get; set; }
@@ -15,25 +15,21 @@ namespace course_project_spring_2023_api.Models
         public string Name { get; set; } = "default";
 
         [Required]
-        [JsonIgnore]
-        public virtual IList<Person> Persons { get; set; } = new List<Person>();
+        public virtual IList<Tag> Tags { get; set; } = new List<Tag>();
 
         [Required]
-        public virtual IList<Exercise> Exercises { get; set; } = new List<Exercise>();
+        [JsonIgnore]
+        public virtual IList<Person> Persons { get; set; } = new List<Person>();
 
         [NotMapped]
         [JsonIgnore]
         public string json => JsonSerializer.Serialize(this);
 
-        public Course(){}
+        public Blog(){}
 
-        public Course(NewCourseModel model)
+        public Blog(NewBlogModel model)
         {
             Name = model.Name;
-            foreach (var item in model.Exercises)
-            {
-                Exercises.Add(new Exercise() { Data = item.Data });
-            }
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using course_project_spring_2023_api.Context;
 using course_project_spring_2023_api.Helpers;
+using course_project_spring_2023_api.Services.BlogServices;
+using course_project_spring_2023_api.Services.CourseServices;
 using course_project_spring_2023_api.Services.PersonServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -54,8 +56,8 @@ namespace course_project_spring_2023_api.Services
             });
 
             services.AddScoped<IPersonService, PersonService>();
-            // services.AddScoped<IPostService, PostService>();
-            // services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<IBlogService, BlogService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

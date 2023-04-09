@@ -1,4 +1,5 @@
-﻿using course_project_spring_2023_api.Context;
+﻿using Castle.Core.Internal;
+using course_project_spring_2023_api.Context;
 using course_project_spring_2023_api.Helpers;
 using course_project_spring_2023_api.Models;
 using course_project_spring_2023_api.Models.DTO;
@@ -22,7 +23,8 @@ namespace course_project_spring_2023_api.Services.PersonServices
 
         public async Task<Person?> Authenticate(AuthenticateModel model, ApiContext db)
         {
-            var person = await db.Persons.FirstOrDefaultAsync(x => x.Username == model.Username && x.Password == model.Password);
+            var person = await db.Persons.FirstOrDefaultAsync(
+                x => x.Username == model.Username && x.Password == model.PlainPassword);
 
             if (Equals(person, null)) return null;
 
@@ -36,7 +38,8 @@ namespace course_project_spring_2023_api.Services.PersonServices
                     new Claim(ClaimTypes.Role, person.Role)
                 }),
                 Expires = DateTime.UtcNow.AddDays(15),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), 
+                    SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             person.Token = tokenHandler.WriteToken(token);
@@ -51,6 +54,61 @@ namespace course_project_spring_2023_api.Services.PersonServices
             if (Equals(p, null)) return null;
 
             return p;
+        }
+
+        public async Task<object?> Register(RegistrateModel model, ApiContext db)
+        {
+            var t = await db.Persons.FirstOrDefaultAsync(x => x.Username == model.Username);
+            if (!Equals(t, null)) return new string("Username is reserved");
+
+            var p = new Person(model);
+
+            var res = await db.Persons.AddAsync(p);
+
+            if (Equals(res.Entity, null)) return null;
+
+            await db.SaveChangesAsync();
+
+            return res.Entity;
+        }
+
+        public async Task<IList<Person>> GetAll(ApiContext db)
+        {
+            var res = await db.Persons.ToListAsync();
+
+            if (Equals(res, null)) return new List<Person>();
+
+            return res;
+        }
+
+        public async Task<bool> DeletePerson(int id, ApiContext db)
+        {
+            var p = await db.Persons.FirstOrDefaultAsync(x => x.Id == id);
+            if (Equals(p, null)) return false;
+            db.Persons.Remove(p);
+            await db.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<object?> Upsert(int id, Person newPerson, ApiContext db)
+        {
+            var old = await db.Persons.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (Equals(old, null)) return $"User with id: {id} doesn't exists";
+
+            old.Courses = newPerson.Courses;
+            old.Weight = newPerson.Weight;
+            old.Height = newPerson.Height;
+            old.Username = newPerson.Username;
+            old.IsNewUser = newPerson.IsNewUser;
+            old.Password = newPerson.Password;
+            old.FirstName = newPerson.FirstName;
+            old.LastName = newPerson.LastName;
+            old.BirthDay = newPerson.BirthDay;
+
+            await db.SaveChangesAsync();
+
+            return true;
         }
     }
 }

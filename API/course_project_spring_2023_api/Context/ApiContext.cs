@@ -5,19 +5,12 @@ namespace course_project_spring_2023_api.Context
 {
     public class ApiContext : DbContext
     {
-        public ApiContext(DbContextOptions<ApiContext> options) : base(options)
-        {
-        }
-
-        //public DbSet<Person> Persons { get; set; }
-        //public DbSet<User> Users { get; set; }
-        //public DbSet<Exercise> Exercises { get; set; }
-        //public DbSet<Repetition> Repetitions { get; set; }
-        //public DbSet<Post> Posts { get; set; }
-        //public DbSet<TrainingCourse> TrainingCourses { get; set; }
-        //public DbSet<UserCourse> UserCourses { get; set; }
+        public ApiContext(DbContextOptions<ApiContext> options) : base(options){}
 
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,11 +19,18 @@ namespace course_project_spring_2023_api.Context
                 .WithMany(e => e.Persons)
                 .UsingEntity<PersonCourse>();
 
+            modelBuilder.Entity<Person>()
+                .HasMany(e => e.Blogs)
+                .WithMany(e => e.Persons)
+                .UsingEntity<PersonBlog>();
+
             modelBuilder.Entity<Course>()
-                .HasMany(e => e.Exercises)
-                .WithOne(e => e.Course)
-                .HasForeignKey(e => e.CourseId)
-                .IsRequired();
+                .HasMany(e => e.Exercises);
+
+            modelBuilder.Entity<Blog>()
+                .HasMany(e => e.Tags)
+                .WithMany(e => e.Blogs)
+                .UsingEntity<BlogTag>();
         }
     }
 }

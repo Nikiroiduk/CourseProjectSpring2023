@@ -4,8 +4,6 @@ using course_project_spring_2023_api.Models.DTO;
 using course_project_spring_2023_api.Services.PersonServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using NuGet.Protocol;
 
 namespace course_project_spring_2023_api.Controllers
 {
@@ -21,6 +19,12 @@ namespace course_project_spring_2023_api.Controllers
         {
             _personService = personService;
             _context = context;
+        }
+
+        [HttpGet("test")]
+        public string test()
+        {
+            return "Hello";
         }
 
         [AllowAnonymous]
@@ -47,9 +51,61 @@ namespace course_project_spring_2023_api.Controllers
 
             var p = await _personService.GetPersonById(_id, _context);
             if (Equals(p, null)) return BadRequest(p);
-            return Ok(p);
-            // TODO: Remove lazy loader creap from json
-            // https://stackoverflow.com/questions/25749509/how-can-i-tell-json-net-to-ignore-properties-in-a-3rd-party-object
+            return Ok(p.json);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterPerson([FromBody] RegistrateModel model)
+        {
+            var p = await _personService.Register(model, _context);
+
+            if (Equals(p, null)) return BadRequest(p);
+            if (p is string) return BadRequest(p);
+            if (p is Person person)
+                return Ok(person.json);
+            else
+                return BadRequest("Something went wrong");
+        }
+
+        [Authorize(Roles = Role.Admin)]
+        [HttpGet("getall")]
+        public async Task<IActionResult> GetAll()
+        {
+            var ans = await _personService.GetAll(_context);
+
+            var res = "";
+            for (int i = 0; i < ans.Count; i++)
+            {
+                res += ans[i].json;
+            }
+            return Ok(res);
+        }
+
+        [Authorize(Roles = $"{Role.Admin}, {Role.User}")]
+        [HttpDelete("{id?}")]
+        public async Task<IActionResult> DeletePerson(int id)
+        {
+            var _id = int.Parse(User.Identity.Name);
+
+            if (_id != id && User.IsInRole(Role.User)) return Unauthorized();
+            if (User.IsInRole(Role.Admin) && _id == id) return Unauthorized();
+
+            var res = await _personService.DeletePerson(id, _context);
+            return res ? Ok() : BadRequest();
+        }
+
+        [Authorize(Roles = Role.User)]
+        [HttpPut("upsert")]
+        public async Task<IActionResult> UpsertUser([FromBody] Person person)
+        {
+            var id = int.Parse(User.Identity.Name);
+            var res = await _personService.Upsert(id, person, _context);
+
+            if (res is bool b)
+                return b ? Ok(b) : BadRequest(b);
+
+            return BadRequest(res);
         }
     }
 }
