@@ -1,55 +1,68 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
+using course_project_spring_2023_api.Models.DTO;
+using course_project_spring_2023_api.Services;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace course_project_spring_2023_api.Models
 {
     public class Person
     {
-        [JsonIgnore]
-        public long Id { get; set; }
+        [Required]
+        public int Id { get; set; }
 
         [Required]
-        public string FirstName { get; set; } = "Default";
-
-        [Required]
-        public string LastName { get; set; } = "Default";
-
-        [Required]
-        public string Username { get; set; } = "Default";
-
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        [EmailAddress]
-        public string Email { get; set; } = "example@mail.com";
+        public string Username { get; set; } = "default";
 
         [Required]
         [JsonIgnore]
-        public string Password { get; set; } = "Default";
+        public string Password { get; set; } = PasswordService.EncryptPlainTextToCipherText("default");
+
+        [NotMapped]
+        [JsonIgnore]
+        public string PlainPassword
+        {
+            get { return PasswordService.DecryptCipherTextToPlainText(Password); }
+            set { Password = PasswordService.EncryptPlainTextToCipherText(value); }
+        }
 
         [Required]
         [JsonIgnore]
         public string Role { get; set; } = "User";
 
         [JsonIgnore]
-        public string Token { get; set; } = "Default token value";
+        [NotMapped]
+        public string Token { get; set; } = "default";
 
-        //[JsonIgnore]
-        public bool IsNewPerson { get; set; } = true;
+        public double Weight { get; set; } = 0;
+        public double Height { get; set; } = 0;
+        public virtual IList<Course> Courses { get; set; } = new List<Course>();
+        public bool IsNewUser { get; set; } = true;
+        public string FirstName { get; set; } = "default";
+        public string LastName { get; set; } = "default";
+        public DateTime BirthDay { get; set; } = DateTime.Now;
+        public string Gender { get; set; } = "default";
+
+
+        [JsonIgnore]
+        public virtual IList<Blog> Blogs { get; set; } = new List<Blog>();
+
+        [JsonIgnore]
+        public DateTime TimeOfRegistration { get; set; } = DateTime.Now;
+
+        [JsonIgnore]
+        [NotMapped]
+        public string json => JsonSerializer.Serialize(this);
 
         public Person(){}
-        public Person(RegistrationModel model){
-            FirstName = model.FirstName;
-            LastName = model.LastName;
+
+        public Person(RegistrateModel model)
+        {
             Username = model.Username;
-            Password = model.Password;
-            Email = model.Email;
+            PlainPassword = model.Password;
         }
-
-        public static Person Empty => new Person();
-
-        //TODO: Override == & != or make class IEquattable and change all comparassions to Equals()
-
     }
 }

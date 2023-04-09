@@ -5,49 +5,32 @@ namespace course_project_spring_2023_api.Context
 {
     public class ApiContext : DbContext
     {
-        public ApiContext(DbContextOptions<ApiContext> options) : base(options)
-        {
-        }
+        public ApiContext(DbContextOptions<ApiContext> options) : base(options){}
 
         public DbSet<Person> Persons { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Exercise> Exercises { get; set; }
-        public DbSet<Repetition> Repetitions { get; set; }
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<TrainingCourse> TrainingCourses { get; set; }
-        public DbSet<UserCourse> UserCourses { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<Person>()
                 .HasMany(e => e.Courses)
-                .WithOne(e => e.User)
-                .HasForeignKey(e => e.UserId)
-                .IsRequired();
+                .WithMany(e => e.Persons)
+                .UsingEntity<PersonCourse>();
 
-            modelBuilder.Entity<UserCourse>()
-                .HasOne(e => e.User)
-                .WithMany(e => e.Courses)
-                .HasForeignKey(e => e.UserId)
-                .IsRequired();
+            modelBuilder.Entity<Person>()
+                .HasMany(e => e.Blogs)
+                .WithMany(e => e.Persons)
+                .UsingEntity<PersonBlog>();
 
-            //modelBuilder.Entity<TrainingCourse>()
-            //    .HasMany(e => e.Exercises);
+            modelBuilder.Entity<Course>()
+                .HasMany(e => e.Exercises);
 
-            modelBuilder.Entity<Exercise>()
-                .HasMany(e => e.Repetitions)
-                .WithOne(e => e.Exercise)
-                .HasForeignKey(e => e.ExerciseId)
-                .IsRequired();
-
-            modelBuilder.Entity<Repetition>()
-                .HasOne(e => e.Exercise)
-                .WithMany(e => e.Repetitions)
-                .HasForeignKey(e => e.ExerciseId)
-                .IsRequired();
-
-            //modelBuilder.Entity<Post>()
-            //    .HasOne(e => e.TrainingCourse);
+            modelBuilder.Entity<Blog>()
+                .HasMany(e => e.Tags)
+                .WithMany(e => e.Blogs)
+                .UsingEntity<BlogTag>();
         }
     }
 }

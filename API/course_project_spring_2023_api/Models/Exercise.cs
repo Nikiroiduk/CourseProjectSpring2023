@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace course_project_spring_2023_api.Models
@@ -7,13 +6,18 @@ namespace course_project_spring_2023_api.Models
     public class Exercise
     {
         [Required]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [JsonIgnore]
-        public long TrainingCourseId { get; set; }
+        public int CourseId { get; set; }
+
+        // TODO: Uncomment and see what happened
+        //[Required]
+        //[JsonIgnore]
+        //public virtual Course Course { get; set; }
 
         [Required]
-        public ICollection<Repetition> Repetitions { get; set; }
+        public string Data { get; set; } = "10, 30, 10, 30, 10, 30, 10, 30, 10"; // set, timeout ...
     }
 }

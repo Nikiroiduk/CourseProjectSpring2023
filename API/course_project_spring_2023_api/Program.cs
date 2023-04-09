@@ -1,6 +1,5 @@
 using course_project_spring_2023_api.Context;
 using course_project_spring_2023_api.Services;
-using course_project_spring_2023_api.Services.PersonServices;
 
 internal class Program
 {

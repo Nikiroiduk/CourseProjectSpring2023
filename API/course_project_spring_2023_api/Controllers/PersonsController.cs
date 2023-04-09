@@ -1,10 +1,9 @@
 using course_project_spring_2023_api.Context;
 using course_project_spring_2023_api.Models;
+using course_project_spring_2023_api.Models.DTO;
 using course_project_spring_2023_api.Services.PersonServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace course_project_spring_2023_api.Controllers
 {
@@ -22,15 +21,18 @@ namespace course_project_spring_2023_api.Controllers
             _context = context;
         }
 
+        [HttpGet("test")]
+        public string test()
+        {
+            return "Hello";
+        }
+
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
         {
-            var person = await _personService.Authenticate(model.Username, model.Password, _context);
-
-            if (Equals(person, null))
-                return BadRequest(new { message = "Username or password is incorrect" });
-
+            var person = await _personService.Authenticate(model, _context);
+            if (Equals(person, null)) return BadRequest(person);
             var response = new
             {
                 id = person.Id,
@@ -38,74 +40,73 @@ namespace course_project_spring_2023_api.Controllers
             };
 
             return Ok(response);
-            //return Ok(person);
+        }
+
+        [Authorize(Roles = $"{Role.User}, {Role.Admin}")]
+        [HttpGet("{id?}")]
+        public async Task<IActionResult> GetPersonById(int id)
+        {
+            var _id = int.Parse(User.Identity.Name);
+            if (_id != id && User.IsInRole(Role.User)) return Unauthorized(id);
+
+            var p = await _personService.GetPersonById(_id, _context);
+            if (Equals(p, null)) return BadRequest(p);
+            return Ok(p.json);
         }
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegistrationModel person)
+        public async Task<IActionResult> RegisterPerson([FromBody] RegistrateModel model)
         {
-            var _person = await _personService.Registrate(person, _context);
-            if (_person == null)
-                return BadRequest(new { message = "Entered data is wrong" });
-            return Ok(_person);
-        }
+            var p = await _personService.Register(model, _context);
 
-        //[Authorize(Roles = Role.Admin)]
-        //[HttpPost("admin_register")]
-        //public IActionResult AdminRegister([FromBody] PowerUser powerUser)
-        //{
-        //    var _powerUser = _personService.Registrate(powerUser, _context);
-        //    if (_powerUser == null)
-        //        return BadRequest(new { message = "Entered data is wrong" });
-        //    return Ok(_powerUser);
-        //}
+            if (Equals(p, null)) return BadRequest(p);
+            if (p is string) return BadRequest(p);
+            if (p is Person person)
+                return Ok(person.json);
+            else
+                return BadRequest("Something went wrong");
+        }
 
         [Authorize(Roles = Role.Admin)]
         [HttpGet("getall")]
         public async Task<IActionResult> GetAll()
         {
-            var persons = await _personService.GetAll(_context);
-            return Ok(persons);
-        }
+            var ans = await _personService.GetAll(_context);
 
-        [Authorize(Roles = Role.Admin)]
-        [HttpGet("{id?}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var currentUserId = int.Parse(User.Identity.Name);
-            if (currentUserId != id && User.IsInRole(Role.User))
-                return Unauthorized();
-
-            var user = await _personService.GetById(id, _context);
-
-            if (Equals(user, null))
-                return NotFound();
-
-            return Ok(user);
-        }
-
-        [Authorize(Roles = Role.User)]
-        [HttpGet("getuser")]
-        public async Task<IActionResult> GetByIdUser()
-        {
-            var currentUserId = int.Parse(User.Identity.Name);
-            var user = await _personService.GetByIdUser(currentUserId, _context);
-
-            if (Equals(user, null))
-                return NotFound();
-
-            return Ok(user);
+            var res = "{[";
+            for (int i = 0; i < ans.Count; i++)
+            {
+                res += ans[i].json + (i < ans.Count - 1 ? ',' : ' ');
+            }
+            res += "]}";
+            return Ok(res);
         }
 
         [Authorize(Roles = $"{Role.Admin}, {Role.User}")]
+        [HttpDelete("{id?}")]
+        public async Task<IActionResult> DeletePerson(int id)
+        {
+            var _id = int.Parse(User.Identity.Name);
+
+            if (_id != id && User.IsInRole(Role.User)) return Unauthorized();
+            if (User.IsInRole(Role.Admin) && _id == id) return Unauthorized();
+
+            var res = await _personService.DeletePerson(id, _context);
+            return res ? Ok() : BadRequest();
+        }
+
+        [Authorize(Roles = Role.User)]
         [HttpPut("upsert")]
-        public async Task<IActionResult> UpsertUser([FromBody] User user)
+        public async Task<IActionResult> UpsertUser([FromBody] Person person)
         {
             var id = int.Parse(User.Identity.Name);
-            var curUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
-            var r = await _personService.UpsertUser(curUser, user, _context);
-            return r ? Ok(r) : BadRequest(curUser);
+            var res = await _personService.Upsert(id, person, _context);
+
+            if (res is bool b)
+                return b ? Ok(b) : BadRequest(b);
+
+            return BadRequest(res);
         }
     }
 }

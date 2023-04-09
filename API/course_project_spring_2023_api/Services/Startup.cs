@@ -1,13 +1,14 @@
 ﻿using course_project_spring_2023_api.Context;
 using course_project_spring_2023_api.Helpers;
+using course_project_spring_2023_api.Services.BlogServices;
+using course_project_spring_2023_api.Services.CourseServices;
 using course_project_spring_2023_api.Services.PersonServices;
-using course_project_spring_2023_api.Services.PostServices;
-using course_project_spring_2023_api.Services.UserServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Configuration;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace course_project_spring_2023_api.Services
 {
@@ -23,10 +24,13 @@ namespace course_project_spring_2023_api.Services
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
 
             services.AddDbContext<ApiContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                .UseLazyLoadingProxies());
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
@@ -52,8 +56,8 @@ namespace course_project_spring_2023_api.Services
             });
 
             services.AddScoped<IPersonService, PersonService>();
-            services.AddScoped<IPostService, PostService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<IBlogService, BlogService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
