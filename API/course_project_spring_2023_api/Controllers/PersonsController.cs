@@ -74,11 +74,12 @@ namespace course_project_spring_2023_api.Controllers
         {
             var ans = await _personService.GetAll(_context);
 
-            var res = "";
+            var res = "{[";
             for (int i = 0; i < ans.Count; i++)
             {
-                res += ans[i].json;
+                res += ans[i].json + (i < ans.Count - 1 ? ',' : ' ');
             }
+            res += "]}";
             return Ok(res);
         }
 

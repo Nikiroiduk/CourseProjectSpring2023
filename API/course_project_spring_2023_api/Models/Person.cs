@@ -1,6 +1,7 @@
 ﻿using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using course_project_spring_2023_api.Models.DTO;
 using course_project_spring_2023_api.Services;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
@@ -14,13 +15,11 @@ namespace course_project_spring_2023_api.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(32)]
         public string Username { get; set; } = "default";
 
         [Required]
         [JsonIgnore]
-        [MaxLength(32)]
-        public string Password { get; set; } = "default";
+        public string Password { get; set; } = PasswordService.EncryptPlainTextToCipherText("default");
 
         [NotMapped]
         [JsonIgnore]

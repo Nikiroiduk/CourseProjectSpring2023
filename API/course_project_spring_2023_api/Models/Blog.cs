@@ -15,6 +15,9 @@ namespace course_project_spring_2023_api.Models
         public string Name { get; set; } = "default";
 
         [Required]
+        public string Content { get; set; } = "default";
+
+        [Required]
         public virtual IList<Tag> Tags { get; set; } = new List<Tag>();
 
         [Required]

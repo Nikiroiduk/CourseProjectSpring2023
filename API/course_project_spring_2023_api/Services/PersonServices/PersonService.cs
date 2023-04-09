@@ -92,16 +92,18 @@ namespace course_project_spring_2023_api.Services.PersonServices
 
         public async Task<object?> Upsert(int id, Person newPerson, ApiContext db)
         {
+            var t = await db.Persons.FirstOrDefaultAsync(x => x.Username == newPerson.Username);
+            if (!Equals(t, null) && id != t.Id) return new string("Username is reserved");
+
             var old = await db.Persons.FirstOrDefaultAsync(x => x.Id == id);
-
             if (Equals(old, null)) return $"User with id: {id} doesn't exists";
-
+            
+            old.Courses.Clear();
             old.Courses = newPerson.Courses;
             old.Weight = newPerson.Weight;
             old.Height = newPerson.Height;
             old.Username = newPerson.Username;
             old.IsNewUser = newPerson.IsNewUser;
-            old.Password = newPerson.Password;
             old.FirstName = newPerson.FirstName;
             old.LastName = newPerson.LastName;
             old.BirthDay = newPerson.BirthDay;

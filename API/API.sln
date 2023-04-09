@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "course_project_spring_2023_api", "course_project_spring_2023_api\course_project_spring_2023_api.csproj", "{14B0876D-0754-4024-BA4E-F308AC368B1E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unit_testing", "unit_testing\unit_testing.csproj", "{D37E2853-A08C-4B57-8151-4E1DFAD0BEFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{14B0876D-0754-4024-BA4E-F308AC368B1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14B0876D-0754-4024-BA4E-F308AC368B1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14B0876D-0754-4024-BA4E-F308AC368B1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D37E2853-A08C-4B57-8151-4E1DFAD0BEFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D37E2853-A08C-4B57-8151-4E1DFAD0BEFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D37E2853-A08C-4B57-8151-4E1DFAD0BEFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D37E2853-A08C-4B57-8151-4E1DFAD0BEFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

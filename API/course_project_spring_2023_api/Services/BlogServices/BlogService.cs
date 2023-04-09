@@ -17,6 +17,8 @@ namespace course_project_spring_2023_api.Services.BlogServices
                 var tag = db.Tags.FirstOrDefault(x => x.Name == item.Name);
                 if (!Equals(tag, null))
                     blog.Tags.Add(tag);
+                else
+                    blog.Tags.Add(db.Tags.Add(item).Entity);
             }
             var res = await db.Blogs.AddAsync(blog);
 
@@ -66,6 +68,7 @@ namespace course_project_spring_2023_api.Services.BlogServices
             old.Tags.Clear();
             old.Tags = res;
             old.Name = newBlog.Name;
+            old.Content = newBlog.Content;
             await db.SaveChangesAsync();
             return true;
         }

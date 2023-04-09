@@ -9,5 +9,8 @@ namespace course_project_spring_2023_api.Models.DTO
 
         [Required]
         public IList<Tag> Tags { get; set; } = new List<Tag>();
+
+        [Required]
+        public string Content { get; set; } = "default";
     }
 }
