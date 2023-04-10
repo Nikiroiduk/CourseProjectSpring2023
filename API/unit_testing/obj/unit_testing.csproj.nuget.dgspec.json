@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\CourseProjectSpring2023\\API\\unit_testing\\unit_testing.csproj": {}
+    "E:\\cpvs\\CourseProjectSpring2023\\API\\unit_testing\\unit_testing.csproj": {}
   },
   "projects": {
-    "E:\\CourseProjectSpring2023\\API\\course_project_spring_2023_api\\course_project_spring_2023_api.csproj": {
+    "E:\\cpvs\\CourseProjectSpring2023\\API\\unit_testing\\unit_testing.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CourseProjectSpring2023\\API\\course_project_spring_2023_api\\course_project_spring_2023_api.csproj",
-        "projectName": "course_project_spring_2023_api",
-        "projectPath": "E:\\CourseProjectSpring2023\\API\\course_project_spring_2023_api\\course_project_spring_2023_api.csproj",
+        "projectUniqueName": "E:\\cpvs\\CourseProjectSpring2023\\API\\unit_testing\\unit_testing.csproj",
+        "projectName": "unit_testing",
+        "projectPath": "E:\\cpvs\\CourseProjectSpring2023\\API\\unit_testing\\unit_testing.csproj",
         "packagesPath": "C:\\Users\\Nikit\\.nuget\\packages\\",
-        "outputPath": "E:\\CourseProjectSpring2023\\API\\course_project_spring_2023_api\\obj\\",
+        "outputPath": "E:\\cpvs\\CourseProjectSpring2023\\API\\unit_testing\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Nikit\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,114 +28,6 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {}
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        }
-      },
-      "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
-          "dependencies": {
-            "Microsoft.AspNetCore.Authentication.JwtBearer": {
-              "target": "Package",
-              "version": "[6.0.15, )"
-            },
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[6.0.15, )"
-            },
-            "Microsoft.EntityFrameworkCore.Design": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[6.0.15, )"
-            },
-            "Microsoft.EntityFrameworkCore.Proxies": {
-              "target": "Package",
-              "version": "[6.0.15, )"
-            },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
-              "target": "Package",
-              "version": "[6.0.15, )"
-            },
-            "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[6.0.15, )"
-            },
-            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
-              "target": "Package",
-              "version": "[6.0.13, )"
-            },
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[6.3.0, )"
-            },
-            "System.Configuration.ConfigurationManager": {
-              "target": "Package",
-              "version": "[7.0.0, )"
-            },
-            "System.IdentityModel.Tokens.Jwt": {
-              "target": "Package",
-              "version": "[6.28.1, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "E:\\CourseProjectSpring2023\\API\\unit_testing\\unit_testing.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "E:\\CourseProjectSpring2023\\API\\unit_testing\\unit_testing.csproj",
-        "projectName": "unit_testing",
-        "projectPath": "E:\\CourseProjectSpring2023\\API\\unit_testing\\unit_testing.csproj",
-        "packagesPath": "C:\\Users\\Nikit\\.nuget\\packages\\",
-        "outputPath": "E:\\CourseProjectSpring2023\\API\\unit_testing\\obj\\",
-        "projectStyle": "PackageReference",
-        "configFilePaths": [
-          "C:\\Users\\Nikit\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net6.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
-            "projectReferences": {
-              "E:\\CourseProjectSpring2023\\API\\course_project_spring_2023_api\\course_project_spring_2023_api.csproj": {
-                "projectPath": "E:\\CourseProjectSpring2023\\API\\course_project_spring_2023_api\\course_project_spring_2023_api.csproj"
-              }
-            }
           }
         },
         "warningProperties": {

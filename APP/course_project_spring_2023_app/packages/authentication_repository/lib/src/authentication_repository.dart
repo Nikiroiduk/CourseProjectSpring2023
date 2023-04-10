@@ -1,9 +1,13 @@
 import 'dart:async';
 
+import 'package:api_repository/api_repository.dart';
+
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
 class AuthenticationRepository {
   final _controller = StreamController<AuthenticationStatus>();
+  final _apiRepository = ApiRepository();
+  late Person person;
 
   Stream<AuthenticationStatus> get status async* {
     await Future<void>.delayed(const Duration(seconds: 1));
@@ -11,14 +15,28 @@ class AuthenticationRepository {
     yield* _controller.stream;
   }
 
-  Future<void> logIn({
+  Future<Object?> logIn({
     required String username,
     required String password,
   }) async {
-    await Future.delayed(
-      const Duration(milliseconds: 300),
-      () => _controller.add(AuthenticationStatus.authenticated),
-    );
+    var r = await _apiRepository.AuthorizePerson(
+        username: username, password: password);
+    if (r is Person) {
+      _controller.add(AuthenticationStatus.authenticated);
+      person = r;
+    }
+  }
+
+  Future<Object?> signUp({
+    required String username,
+    required String password,
+  }) async {
+    var r = await _apiRepository.RegistratePerson(
+        username: username, password: password);
+    if (r is Person) {
+      _controller.add(AuthenticationStatus.authenticated);
+      person = r;
+    }
   }
 
   void logOut() {

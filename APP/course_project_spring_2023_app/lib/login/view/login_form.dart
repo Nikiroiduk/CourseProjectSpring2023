@@ -16,7 +16,9 @@ class LoginForm extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Authentication failure')),
+              SnackBar(
+                  content: Text(
+                      '${state.isNewUser ? 'Registration' : 'Authentication'} failure')),
             );
         }
       },
@@ -30,6 +32,8 @@ class LoginForm extends StatelessWidget {
             _PasswordInput(),
             const Padding(padding: EdgeInsets.all(12)),
             _LoginButton(),
+            const Padding(padding: EdgeInsets.all(12)),
+            _SignUpCheckbox(),
           ],
         ),
       ),
@@ -83,7 +87,8 @@ class _LoginButton extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) =>
           previous.status != current.status ||
-          previous.isValid != current.isValid,
+          previous.isValid != current.isValid ||
+          previous.isNewUser != current.isNewUser,
       builder: (context, state) {
         return state.status.isInProgress
             ? const CircularProgressIndicator()
@@ -91,11 +96,39 @@ class _LoginButton extends StatelessWidget {
                 key: const Key('loginForm_continue'),
                 onPressed: state.isValid
                     ? () {
-                        context.read<LoginBloc>().add(const LoginSubmitted());
+                        state.isNewUser
+                            ? context
+                                .read<LoginBloc>()
+                                .add(const SignUpSumbitted())
+                            : context
+                                .read<LoginBloc>()
+                                .add(const LoginSubmitted());
                       }
                     : null,
-                child: const Text('Login'),
+                child: Text(state.isNewUser ? 'Sign up' : 'Login'),
               );
+      },
+    );
+  }
+}
+
+class _SignUpCheckbox extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LoginBloc, LoginState>(
+      buildWhen: (previous, current) => previous.isNewUser != current.isNewUser,
+      builder: (context, state) {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Checkbox(
+              value: state.isNewUser,
+              onChanged: (value) =>
+                  context.read<LoginBloc>().add(SignUpCheckboxChanged(value!)),
+            ),
+            const Text('I\'m a new user'),
+          ],
+        );
       },
     );
   }

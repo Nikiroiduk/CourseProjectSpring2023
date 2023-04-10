@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace course_project_spring_2023_api.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class BlogsController : ControllerBase

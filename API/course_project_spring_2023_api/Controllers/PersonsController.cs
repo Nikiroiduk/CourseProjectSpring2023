@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace course_project_spring_2023_api.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class PersonsController : ControllerBase
@@ -33,13 +32,8 @@ namespace course_project_spring_2023_api.Controllers
         {
             var person = await _personService.Authenticate(model, _context);
             if (Equals(person, null)) return BadRequest(person);
-            var response = new
-            {
-                id = person.Id,
-                token = person.Token
-            };
 
-            return Ok(response);
+            return Ok(person.jsonAuth);
         }
 
         [Authorize(Roles = $"{Role.User}, {Role.Admin}")]

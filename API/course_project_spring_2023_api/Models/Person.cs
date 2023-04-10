@@ -57,6 +57,10 @@ namespace course_project_spring_2023_api.Models
         [NotMapped]
         public string json => JsonSerializer.Serialize(this);
 
+        [JsonIgnore]
+        [NotMapped]
+        public string jsonAuth => JsonSerializer.Serialize(new List<object>() { this.Id, this.Token });
+
         public Person(){}
 
         public Person(RegistrateModel model)

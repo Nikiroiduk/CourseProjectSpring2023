@@ -25,6 +25,18 @@ class LoginPasswordChanged extends LoginEvent {
   List<Object> get props => [password];
 }
 
+class SignUpCheckboxChanged extends LoginEvent {
+  const SignUpCheckboxChanged(this.isNewUser);
+
+  final bool isNewUser;
+  @override
+  List<Object> get props => [isNewUser];
+}
+
 class LoginSubmitted extends LoginEvent {
   const LoginSubmitted();
+}
+
+class SignUpSumbitted extends LoginEvent {
+  const SignUpSumbitted();
 }
