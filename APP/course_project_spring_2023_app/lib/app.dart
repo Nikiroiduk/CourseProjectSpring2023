@@ -39,8 +39,8 @@ class _AppState extends State<App> {
       value: _authenticationRepository,
       child: BlocProvider(
         create: (_) => AuthenticationBloc(
-            authenticationRepository: _authenticationRepository,
-            userRepository: _userRepository),
+          authenticationRepository: _authenticationRepository,
+        ),
         child: const AppView(),
       ),
     );

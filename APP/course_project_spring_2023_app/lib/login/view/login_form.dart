@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -17,8 +16,9 @@ class LoginForm extends StatelessWidget {
             ..hideCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
-                  content: Text(
-                      '${state.isNewUser ? 'Registration' : 'Authentication'} failure')),
+                content: Text(
+                    '${state.isNewUser ? 'Registration' : 'Authentication'} failure'),
+              ),
             );
         }
       },

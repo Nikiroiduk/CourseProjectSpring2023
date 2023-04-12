@@ -30,10 +30,8 @@ namespace course_project_spring_2023_api.Models
         }
 
         [Required]
-        [JsonIgnore]
         public string Role { get; set; } = "User";
 
-        [JsonIgnore]
         [NotMapped]
         public string Token { get; set; } = "default";
 

@@ -2,13 +2,20 @@ import 'dart:async';
 
 import 'models/models.dart';
 import 'package:uuid/uuid.dart';
+import 'package:api_repository/api_repository.dart';
+
+enum UserStatus { admin, user, newUser }
 
 class UserRepository {
-  User? _user;
+  final _controller = StreamController<UserStatus>();
 
-  Future<User?> getUser() async {
-    if (_user != null) return _user;
-    return Future.delayed(const Duration(milliseconds: 300),
-        () => _user = User(const Uuid().v4(), 'username'));
+  void SetPerson(Person person) {
+    _person = person;
+  }
+
+  late Person _person;
+
+  Stream<UserStatus> get status async* {
+    yield* _controller.stream;
   }
 }
