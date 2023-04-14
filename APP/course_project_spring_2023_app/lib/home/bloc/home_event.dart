@@ -3,6 +3,9 @@ part of 'home_bloc.dart';
 @immutable
 abstract class HomeEvent extends Equatable {
   const HomeEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
 class NewScreenSelected extends HomeEvent {
@@ -88,7 +91,8 @@ class GenderChanged extends HomeEvent {
 
 class NewUserDataSubmitted extends HomeEvent {
   const NewUserDataSubmitted();
+}
 
-  @override
-  List<Object> get props => [];
+class UpdateBlogsRequested extends HomeEvent {
+  const UpdateBlogsRequested();
 }

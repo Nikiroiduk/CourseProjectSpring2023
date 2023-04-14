@@ -39,6 +39,7 @@ class Person {
     firstName = person.firstName;
     lastName = person.lastName;
     birthDay = person.birthDay;
+    isNewPerson = person.isNewPerson;
     gender = person.gender;
     courses = person.courses;
     role = person.role;
@@ -49,7 +50,7 @@ class Person {
       "Username": username,
       "Height": height,
       "Weight": weight,
-      "Courses": '[]',
+      "Courses": <Object>[],
       "IsNewUser": isNewPerson,
       "FirstName": firstName,
       "LastName": lastName,
@@ -63,7 +64,7 @@ class Person {
       return Person(
         id: json['Id'],
         username: json['Username'],
-        isNewPerson: json['IsNewUser'],
+        isNewPerson: json['IsNewUser'] == true,
         firstName: json['FirstName'],
         lastName: json['LastName'],
         birthDay: DateTime.parse(json['BirthDay']),
@@ -76,7 +77,7 @@ class Person {
       id: json['Id'],
       token: json['Token'],
       username: json['Username'],
-      isNewPerson: json['IsNewUser'],
+      isNewPerson: json['IsNewUser'] == true,
       firstName: json['FirstName'],
       lastName: json['LastName'],
       birthDay: DateTime.parse(json['BirthDay']),

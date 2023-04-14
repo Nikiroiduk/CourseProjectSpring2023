@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:api_repository/api_repository.dart';
 import 'package:course_project_spring_2023_app/home/models/models.dart';
 import 'package:date_field/date_field.dart';
@@ -16,76 +18,169 @@ class ProfileView extends StatelessWidget {
     context.read<HomeBloc>().add(IsNewUserChanged(context
         .select((AuthenticationBloc bloc) => bloc.state.user!.isNewPerson)));
     return BlocBuilder<HomeBloc, HomeState>(
-      buildWhen: (previous, current) => previous.isNewUser != current.isNewUser,
+      buildWhen: (previous, current) =>
+          previous.isNewUser != current.isNewUser ||
+          previous.status != current.status ||
+          previous.isDataFieldsValid != current.isDataFieldsValid,
       builder: (context, state) {
-        switch (state.isNewUser) {
-          case true:
-            return Padding(
-              padding:
-                  const EdgeInsets.only(left: 12.0, right: 12.0, top: 10.0),
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  Text(
-                    "Hi, ${state.user?.username}",
-                    style: const TextStyle(
-                        fontSize: 40, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    "We need a little more information about you.",
-                  ),
-                  const SizedBox(height: 20),
-                  _FirstNameInput(),
-                  const SizedBox(height: 12),
-                  _LastNameInput(),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Expanded(child: _HeightInput()),
-                      const SizedBox(width: 12),
-                      Expanded(child: _WeightInput()),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  DropdownButtonFormField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      hintText: 'Gender',
+        return context.select((HomeBloc bloc) => bloc.state.user?.role) ==
+                "User"
+            ? state.isNewUser
+                ? Padding(
+                    padding: const EdgeInsets.only(
+                        left: 12.0, right: 12.0, top: 16.0),
+                    child: ListView(
+                      physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
+                      children: [
+                        Text(
+                          "Hi, ${state.user?.username}",
+                          style: const TextStyle(
+                              fontSize: 40, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          "We need a little more information about you.",
+                        ),
+                        const SizedBox(height: 20),
+                        _FirstNameInput(),
+                        const SizedBox(height: 12),
+                        _LastNameInput(),
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            Expanded(child: _HeightInput()),
+                            const SizedBox(width: 12),
+                            Expanded(child: _WeightInput()),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        DropdownButtonFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                            hintText: 'Gender',
+                          ),
+                          items: const [
+                            DropdownMenuItem(value: 0, child: Text('Male')),
+                            DropdownMenuItem(value: 1, child: Text('Female')),
+                          ],
+                          onChanged: (value) => context.read<HomeBloc>().add(
+                              GenderChanged(value == 0 ? 'Male' : 'Female')),
+                        ),
+                        const SizedBox(height: 12),
+                        DateTimeFormField(
+                          firstDate: DateTime.parse('1950-01-01'),
+                          lastDate: DateTime.now(),
+                          initialDate: DateTime.parse(
+                              '${DateTime.now().year - 18}-01-01'),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                            hintText: 'Birth date',
+                          ),
+                          mode: DateTimeFieldPickerMode.date,
+                          onDateSelected: (value) => context
+                              .read<HomeBloc>()
+                              .add(BirthDateChanged(value)),
+                        ),
+                        const SizedBox(height: 12),
+                        _SendButton(),
+                      ],
                     ),
-                    items: const [
-                      DropdownMenuItem(value: 0, child: Text('Male')),
-                      DropdownMenuItem(value: 1, child: Text('Female')),
-                    ],
-                    onChanged: (value) => context
-                        .read<HomeBloc>()
-                        .add(GenderChanged(value == 0 ? 'Male' : 'Female')),
-                  ),
-                  const SizedBox(height: 12),
-                  DateTimeFormField(
-                    firstDate: DateTime.parse('1950-01-01'),
-                    lastDate: DateTime.now(),
-                    initialDate:
-                        DateTime.parse('${DateTime.now().year - 18}-01-01'),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      hintText: 'Birth date',
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(
+                        left: 12.0, right: 12.0, top: 16.0),
+                    child: ListView(
+                      physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
+                      children: [
+                        Text(
+                          "${context.select((HomeBloc bloc) => bloc.state.user?.username)}",
+                          style: const TextStyle(
+                              fontSize: 40, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "${context.select((HomeBloc bloc) => bloc.state.user?.firstName)} "
+                          "${context.select((HomeBloc bloc) => bloc.state.user?.lastName)}",
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey,
+                              letterSpacing: 1.1),
+                        ),
+                        Text(
+                          "${context.select((HomeBloc bloc) => bloc.state.user?.gender)}, "
+                          "${context.select((HomeBloc bloc) => bloc.state.user?.age)}",
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey,
+                              letterSpacing: 1.1),
+                        ),
+                        const SizedBox(height: 30),
+                        const Text(
+                          "Your courses",
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const SizedBox(height: 12),
+                            Container(
+                              height: 100,
+                              color: Colors.amber,
+                            ),
+                            const SizedBox(height: 12),
+                            Container(
+                              height: 100,
+                              color: Colors.blueAccent,
+                            ),
+                            const SizedBox(height: 12),
+                            Container(
+                              height: 100,
+                              color: Colors.blueGrey,
+                            ),
+                            const SizedBox(height: 12),
+                            Container(
+                              height: 100,
+                              color: Colors.limeAccent,
+                            ),
+                            const SizedBox(height: 12),
+                            Container(
+                              height: 100,
+                              color: Colors.pink,
+                            ),
+                            const SizedBox(height: 12),
+                            Container(
+                              height: 100,
+                              color: Colors.red,
+                            ),
+                            const SizedBox(height: 12),
+                            Container(
+                              height: 100,
+                              color: Colors.purple,
+                            ),
+                            const SizedBox(height: 12),
+                            Container(
+                              height: 100,
+                              color: Colors.greenAccent,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    mode: DateTimeFieldPickerMode.date,
-                    onDateSelected: (value) =>
-                        context.read<HomeBloc>().add(BirthDateChanged(value)),
-                  ),
-                  _SendButton(),
-                ],
-              ),
-            );
-          case false:
-            return const Text('Mock');
-          default:
-            return const Text('Something went wrong');
-        }
+                  )
+            : Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Text('Users list'),
+                    Text('Blogs list'),
+                    Text('Courses list'),
+                  ],
+                ),
+              );
       },
     );
   }
@@ -181,25 +276,21 @@ class _SendButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (previous, current) =>
-          //previous.status != current.status ||
+          previous.status != current.status ||
           previous.isDataFieldsValid != current.isDataFieldsValid,
       builder: (context, state) {
-        return state.status.isInProgress
-            ? const CircularProgressIndicator()
-            : ElevatedButton(
-                key: const Key('profileView_continue'),
-                onPressed: state.isDataFieldsValid
-                    ? () {
-                        context
-                            .read<HomeBloc>()
-                            .add(const NewUserDataSubmitted());
-                      }
-                    : null,
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Send'),
-                ),
-              );
+        return ElevatedButton(
+          key: const Key('profileView_continue'),
+          onPressed: state.isDataFieldsValid
+              ? () {
+                  context.read<HomeBloc>().add(const NewUserDataSubmitted());
+                }
+              : null,
+          child: const Padding(
+            padding: EdgeInsets.all(18.0),
+            child: Text('Send'),
+          ),
+        );
       },
     );
   }

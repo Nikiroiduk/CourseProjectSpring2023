@@ -4,7 +4,7 @@ part of 'home_bloc.dart';
 class HomeState extends Equatable {
   const HomeState({
     this.user,
-    this.value = HomeTab.blog,
+    this.value = HomeTab.profile,
     this.isNewUser = false,
     this.firstName = const FirstName.pure(),
     this.lastName = const LastName.pure(),
@@ -14,6 +14,7 @@ class HomeState extends Equatable {
     this.height = const Height.pure(),
     this.gender = '',
     this.status = FormzSubmissionStatus.initial,
+    this.blogs = const <Blog>[],
   });
 
   final Person? user;
@@ -27,6 +28,7 @@ class HomeState extends Equatable {
   final Height height;
   final String gender;
   final FormzSubmissionStatus status;
+  final List<Blog> blogs;
 
   @override
   List<Object?> get props => [
@@ -41,6 +43,7 @@ class HomeState extends Equatable {
         height,
         gender,
         status,
+        blogs,
       ];
 
   HomeState copyWith({
@@ -55,6 +58,7 @@ class HomeState extends Equatable {
     Height? height,
     String? gender,
     FormzSubmissionStatus? status,
+    List<Blog>? blogs,
   }) {
     return HomeState(
       user: user ?? this.user,
@@ -68,6 +72,7 @@ class HomeState extends Equatable {
       height: height ?? this.height,
       gender: gender ?? this.gender,
       status: status ?? this.status,
+      blogs: blogs ?? this.blogs,
     );
   }
 }

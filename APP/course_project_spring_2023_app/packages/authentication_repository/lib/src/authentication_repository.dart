@@ -10,7 +10,7 @@ class AuthenticationRepository {
   late Person person;
 
   Stream<AuthenticationStatus> get status async* {
-    //TODO: Check some storage for user token and if token is valud authenricate with it else show signIn/Up screen
+    //TODO: Check some storage for user token and if token is valid authenticate with it else show signIn/Up screen
     await Future<void>.delayed(const Duration(seconds: 1));
     yield AuthenticationStatus.unauthenticated;
     yield* _controller.stream;

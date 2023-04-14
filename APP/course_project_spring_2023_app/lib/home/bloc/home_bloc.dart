@@ -1,5 +1,6 @@
 import 'package:api_repository/api_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:course_project_spring_2023_app/home/home.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:meta/meta.dart';
@@ -13,6 +14,8 @@ part 'home_state.dart';
 enum HomeTab { blog, course, profile }
 
 enum Gender { male, female }
+
+enum BlogsState { loading, loaded }
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(const HomeState()) {
@@ -146,7 +149,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           p.gender = state.gender;
           await tmp.UpsertPerson(person: p);
         }
-        emit(state.copyWith(status: FormzSubmissionStatus.success));
+        emit(state.copyWith(
+            status: FormzSubmissionStatus.success, isNewUser: false));
       } catch (_) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
       }

@@ -43,11 +43,7 @@ class AuthenticationBloc
         return emit(const AuthenticationState.unauthenticated());
       case AuthenticationStatus.authenticated:
         final user = _authenticationRepository.person;
-        return emit(
-          user != null
-              ? AuthenticationState.authenticated(user)
-              : const AuthenticationState.unauthenticated(),
-        );
+        return emit(AuthenticationState.authenticated(user));
       case AuthenticationStatus.unknown:
         return emit(const AuthenticationState.unknown());
     }
