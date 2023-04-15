@@ -16,33 +16,15 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
         super(BlogState()) {
     on<_BlogsChanged>(_onBlogsChanged);
     on<TokenChanged>(_onTokenChanged);
+    on<BlogDeleted>(_onBlogDeleted);
+    on<BlogAdded>(_onBlogAdded);
+    on<BlogUpdated>(_onBlogUpdated);
     _blogsSubscription =
         _apiRepository.blogs.listen((blogs) => add(_BlogsChanged(blogs)));
   }
 
   final ApiRepository _apiRepository;
   late StreamSubscription<List<Blog>> _blogsSubscription;
-
-  Stream<BlogState> mapEventToState(BlogEvent event) async* {
-    if (event is BlogsLoad) {
-      yield Loading();
-
-      final generatedItems = await _apiRepository.GetBlogs(token: state.token);
-      if (generatedItems is List<Blog>) {
-        yield Loaded(generatedItems);
-      }
-    }
-
-    if (event is BlogsRefresh) {
-      yield Refresh();
-
-      final generatedItems = await _apiRepository.GetBlogs(token: state.token);
-
-      if (generatedItems is List<Blog>) {
-        yield Loaded(generatedItems);
-      }
-    }
-  }
 
   @override
   Future<void> close() {
@@ -63,5 +45,20 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
   ) async {
     await _apiRepository.GetBlogs(token: event.token);
     emit(state.copyWith(token: event.token));
+  }
+
+  void _onBlogDeleted(BlogDeleted event, Emitter<BlogState> emit) async {
+    await _apiRepository.DeleteBlog(token: state.token, blog: event.blog);
+    emit(state.copyWith());
+  }
+
+  void _onBlogAdded(BlogAdded event, Emitter<BlogState> emit) async {
+    await _apiRepository.AddBlog(token: state.token, blog: event.blog);
+    emit(state.copyWith(added: state.added + 1));
+  }
+
+  void _onBlogUpdated(BlogUpdated event, Emitter<BlogState> emit) async {
+    await _apiRepository.UpdateBlog(token: state.token, blog: event.blog);
+    emit(state.copyWith());
   }
 }

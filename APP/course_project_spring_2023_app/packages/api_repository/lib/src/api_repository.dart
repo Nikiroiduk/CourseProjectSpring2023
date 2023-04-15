@@ -150,4 +150,72 @@ class ApiRepository {
     }
     return null;
   }
+
+  Future<Object?> DeleteBlog({
+    required String token,
+    required Blog blog,
+  }) async {
+    var options = Options(headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    try {
+      var res =
+          await _dio.delete('$address/Blogs/${blog.id}', options: options);
+      print(res);
+      if (res.statusCode == 200) {
+        await GetBlogs(token: token);
+      }
+    } catch (e) {
+      print(e);
+      return ApiRepositoryStatus.badRequest;
+    }
+    return null;
+  }
+
+  Future<Object?> AddBlog({
+    required String token,
+    required Blog blog,
+  }) async {
+    var options = Options(headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    try {
+      print(blog);
+      var res = await _dio.post('$address/Blogs/new',
+          options: options, data: blog.toJson());
+      print(res);
+      if (res.statusCode == 200) {
+        await GetBlogs(token: token);
+      }
+    } catch (e) {
+      print(e);
+      return ApiRepositoryStatus.badRequest;
+    }
+    return null;
+  }
+
+  Future<Object?> UpdateBlog({
+    required String token,
+    required Blog blog,
+  }) async {
+    var options = Options(headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    try {
+      print(blog);
+      var res = await _dio.put('$address/Blogs/${blog.id}',
+          options: options, data: blog.toJson());
+      print(res);
+      if (res.statusCode == 200) {
+        await GetBlogs(token: token);
+      }
+    } catch (e) {
+      print(e);
+      return ApiRepositoryStatus.badRequest;
+    }
+    return null;
+  }
 }

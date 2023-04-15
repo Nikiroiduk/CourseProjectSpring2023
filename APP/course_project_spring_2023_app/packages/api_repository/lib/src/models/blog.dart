@@ -28,8 +28,23 @@ class Blog {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    List<Map<String, dynamic>> res = <Map<String, dynamic>>[];
+    for (var element in tags) {
+      res.add(element.toJson());
+    }
+
+    print(res);
+
+    return <String, dynamic>{
+      "Name": name,
+      "Content": content,
+      "Tags": res,
+    };
+  }
+
   @override
   String toString() {
-    return "\nId: $id, Name: $name";
+    return "\nId: $id, Name: $name, Content: $content";
   }
 }

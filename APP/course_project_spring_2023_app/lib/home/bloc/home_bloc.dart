@@ -145,8 +145,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           p.isNewPerson = false;
           p.height = double.parse(state.height.value);
           p.weight = double.parse(state.weight.value);
-          p.birthDay = state.birthDate;
           p.gender = state.gender;
+          p.birthDay = state.birthDate;
           await tmp.UpsertPerson(person: p);
         }
         emit(state.copyWith(

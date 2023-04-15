@@ -10,7 +10,6 @@ class Tag {
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      "Id": id,
       "Name": name,
     };
   }

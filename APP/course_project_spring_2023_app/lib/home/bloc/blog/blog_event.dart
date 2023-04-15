@@ -31,3 +31,24 @@ class BlogsRefresh extends BlogEvent {
 class BlogsLoad extends BlogEvent {
   BlogsLoad();
 }
+
+class BlogDeleted extends BlogEvent {
+  BlogDeleted(this.blog);
+  final Blog blog;
+  @override
+  List<Object> get props => [blog];
+}
+
+class BlogUpdated extends BlogEvent {
+  BlogUpdated(this.blog);
+  final Blog blog;
+  @override
+  List<Object> get props => [blog];
+}
+
+class BlogAdded extends BlogEvent {
+  BlogAdded(this.blog);
+  final Blog blog;
+  @override
+  List<Object> get props => [blog];
+}
