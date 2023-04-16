@@ -52,6 +52,7 @@ class _UsernameInput extends StatelessWidget {
           onChanged: (username) =>
               context.read<LoginBloc>().add(LoginUsernameChanged(username)),
           decoration: InputDecoration(
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
             labelText: 'username',
             errorText: state.username.isValid ? null : 'invalid username',
           ),
@@ -68,10 +69,12 @@ class _PasswordInput extends StatelessWidget {
       buildWhen: ((previous, current) => previous.password != current.password),
       builder: (context, state) {
         return TextField(
+          obscureText: true,
           key: const Key('loginForm_passwordInput'),
           onChanged: (password) =>
               context.read<LoginBloc>().add(LoginPasswordChanged(password)),
           decoration: InputDecoration(
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
             labelText: 'password',
             errorText: state.password.isValid ? null : 'invalid password',
           ),

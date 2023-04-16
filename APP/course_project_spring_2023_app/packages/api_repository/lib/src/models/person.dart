@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 
+import '../../api_repository.dart';
+
 class Person {
   Person({
     required this.id,
@@ -12,10 +14,10 @@ class Person {
     this.lastName = 'default',
     this.birthDay = null,
     this.gender = 'default',
-    this.courses = null,
     this.role = 'User',
     this.height = 0,
     this.weight = 0,
+    this.courses = const <Course>[],
   });
 
   int id;
@@ -29,7 +31,7 @@ class Person {
   DateTime? birthDay;
   String gender;
   String role;
-  late List<Object>? courses; //TODO
+  late List<Course> courses;
   late int age = DateTime.now().year - birthDay!.year;
 
   final DateFormat _formatter = DateFormat('yyyy-MM-dd');
@@ -46,11 +48,15 @@ class Person {
   }
 
   Map<String, dynamic> toJson() {
+    List<Map<String, dynamic>> res = <Map<String, dynamic>>[];
+    for (var element in courses) {
+      res.add(element.toJson());
+    }
     return {
       "Username": username,
       "Height": height,
       "Weight": weight,
-      "Courses": <Object>[],
+      "Courses": res,
       "IsNewUser": isNewPerson,
       "FirstName": firstName,
       "LastName": lastName,
@@ -60,6 +66,10 @@ class Person {
   }
 
   factory Person.fromJson(Map<String, dynamic> json) {
+    List<Course> result = <Course>[];
+    for (var element in json["Courses"]) {
+      if (element is Map<String, dynamic>) result.add(Course.fromJson(element));
+    }
     if (json['token'] == null)
       return Person(
         id: json['Id'],
@@ -72,6 +82,7 @@ class Person {
         role: json['Role'],
         weight: double.parse(json['Weight'].toString()),
         height: double.parse(json['Height'].toString()),
+        courses: result,
       );
     return Person(
       id: json['Id'],
@@ -85,6 +96,7 @@ class Person {
       role: json['Role'],
       weight: double.parse(json['Weight'].toString()),
       height: double.parse(json['Height'].toString()),
+      courses: result,
     );
   }
 
@@ -92,6 +104,7 @@ class Person {
   String toString() {
     return "Id: $id\nToken: $token\nUsername: $username" +
         "\nFirstName: $firstName\nLastName: $lastName\n" +
-        "Role: $role\nIsNewPerson: $isNewPerson";
+        "Role: $role\nIsNewPerson: $isNewPerson\n" +
+        "Courses: $courses";
   }
 }

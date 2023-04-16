@@ -34,15 +34,14 @@ class _BlogViewState extends State<BlogView> {
       value: _apiRepository,
       child: BlocProvider(
         create: (_) => BlogBloc(apiRepository: _apiRepository),
-        child: _Blogs(_apiRepository),
+        child: _Blogs(),
       ),
     );
   }
 }
 
 class _Blogs extends StatelessWidget {
-  _Blogs(ApiRepository apiRepository) : _apiRepository = apiRepository;
-  late final ApiRepository _apiRepository;
+  _Blogs();
   var images = <Widget>[
     Image.asset(
       'assets/images/fitness.jpg',
@@ -86,7 +85,9 @@ class _Blogs extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Expanded(
-                    child: Text('Blogs', style: TextStyle(fontSize: 30)),
+                    child: Text('BLOGS',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold)),
                   ),
                   context.read<AuthenticationBloc>().state.user!.role == 'Admin'
                       ? Row(
@@ -168,10 +169,10 @@ class _Blogs extends StatelessWidget {
                     },
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 14),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      clipBehavior: Clip.hardEdge,
+                      // decoration: const BoxDecoration(
+                      //   borderRadius: BorderRadius.all(Radius.circular(10)),
+                      // ),
+                      // clipBehavior: Clip.hardEdge,
                       child: Stack(
                         fit: StackFit.passthrough,
                         alignment: Alignment.bottomLeft,
@@ -207,7 +208,9 @@ class _Blogs extends StatelessWidget {
                                           fontSize: 32,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    Text('${times[index]} minutes'),
+                                    index >= 0
+                                        ? Text('${times[index]} minutes')
+                                        : Container(),
                                   ]),
                             ),
                           ),

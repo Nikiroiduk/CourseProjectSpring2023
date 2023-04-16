@@ -29,6 +29,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<BirthDateChanged>(_onBirthDateChanged);
     on<GenderChanged>(_onGenderChanged);
     on<NewUserDataSubmitted>(_onNewUserDataSubmitted);
+    on<UpsertUser>(_onUpsertUser);
+    on<CoursesChanged>(_onCoursesChanged);
   }
 
   void _onNewScreenSelected(
@@ -155,5 +157,35 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
       }
     }
+  }
+
+  void _onUpsertUser(
+    UpsertUser event,
+    Emitter<HomeState> emit,
+  ) async {
+    var tmp = ApiRepository();
+    Person p;
+    if (state.user != null) {
+      p = state.user as Person;
+      // p.firstName = state.firstName.value;
+      // p.lastName = state.lastName.value;
+      // p.isNewPerson = false;
+      // p.height = double.parse(state.height.value);
+      // p.weight = double.parse(state.weight.value);
+      // p.gender = state.gender;
+      // p.birthDay = state.birthDate;
+      p.courses = state.courses;
+      await tmp.UpsertPerson(person: p);
+    }
+    emit(
+      state.copyWith(),
+    );
+  }
+
+  void _onCoursesChanged(
+    CoursesChanged event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(state.copyWith(courses: event.courses));
   }
 }

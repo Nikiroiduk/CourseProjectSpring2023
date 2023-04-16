@@ -27,6 +27,7 @@ dependencies:
   formz: ^0.6.0
   date_field: ^3.0.5
   intl: ^0.18.0
+  timelines: ^0.1.0
 
 dev_dependencies:
   flutter_test:
@@ -38,5 +39,6 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/
+    - assets/images/courses/
   uses-material-design: true
 

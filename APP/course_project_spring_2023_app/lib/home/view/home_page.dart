@@ -74,15 +74,6 @@ class HomeView extends StatelessWidget {
   }
 }
 
-class CourseView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Course'),
-    );
-  }
-}
-
 class _HomeTabButton extends StatelessWidget {
   const _HomeTabButton({
     required this.groupValue,

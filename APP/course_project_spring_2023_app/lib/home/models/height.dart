@@ -11,8 +11,9 @@ class Height extends FormzInput<String, HeightValidationError> {
     if (value.isEmpty) return HeightValidationError.empty;
     if (value.startsWith('0')) return HeightValidationError.zero;
     if (value.startsWith('-')) return HeightValidationError.negative;
-    if (value.contains(RegExp(r'[a-zA-Z]')))
+    if (value.contains(RegExp(r'[a-zA-Z]'))) {
       return HeightValidationError.invalid;
+    }
     return null;
   }
 }

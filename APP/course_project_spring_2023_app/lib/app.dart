@@ -1,10 +1,8 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:course_project_spring_2023_app/authentication/bloc/authentication_bloc.dart';
 import 'package:course_project_spring_2023_app/splash/splash.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:user_repository/user_repository.dart';
 
 import 'home/home.dart';
 import 'login/login.dart';
@@ -18,13 +16,11 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   late final AuthenticationRepository _authenticationRepository;
-  late final UserRepository _userRepository;
 
   @override
   void initState() {
     super.initState();
     _authenticationRepository = AuthenticationRepository();
-    _userRepository = UserRepository();
   }
 
   @override

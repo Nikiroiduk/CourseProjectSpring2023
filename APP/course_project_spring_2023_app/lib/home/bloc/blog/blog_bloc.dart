@@ -2,10 +2,8 @@ import 'dart:async';
 
 import 'package:api_repository/api_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:course_project_spring_2023_app/home/bloc/home_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 
 part 'blog_event.dart';
 part 'blog_state.dart';

@@ -96,3 +96,17 @@ class NewUserDataSubmitted extends HomeEvent {
 class UpdateBlogsRequested extends HomeEvent {
   const UpdateBlogsRequested();
 }
+
+class UpsertUser extends HomeEvent {
+  const UpsertUser(this.user);
+  final Person user;
+  @override
+  List<Object> get props => [user];
+}
+
+class CoursesChanged extends HomeEvent {
+  const CoursesChanged(this.courses);
+  final List<Course> courses;
+  @override
+  List<Object> get props => [courses];
+}

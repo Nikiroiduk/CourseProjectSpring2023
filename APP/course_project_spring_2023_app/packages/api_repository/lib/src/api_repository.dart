@@ -18,6 +18,12 @@ class ApiRepository {
     yield* _controller.stream;
   }
 
+  final _courseController = StreamController<List<Course>>();
+
+  Stream<List<Course>> get courses async* {
+    yield* _courseController.stream;
+  }
+
   final String address = "https://192.168.0.108:45455";
 
   final Dio _dio = new Dio();
@@ -211,6 +217,33 @@ class ApiRepository {
       print(res);
       if (res.statusCode == 200) {
         await GetBlogs(token: token);
+      }
+    } catch (e) {
+      print(e);
+      return ApiRepositoryStatus.badRequest;
+    }
+    return null;
+  }
+
+  Future<Object?> GetCourses({
+    required String token,
+  }) async {
+    var options = Options(headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    try {
+      var res = await _dio.get('$address/Courses/getall', options: options);
+      if (res.statusCode == 200) {
+        List<Map<String, dynamic>> collection = (json.decode(
+          res.data.toString().substring(1, res.data.toString().length - 1),
+        ) as List<dynamic>)
+            .cast<Map<String, dynamic>>();
+        List<Course> result = <Course>[];
+        for (var element in collection) {
+          result.add(Course.fromJson(element));
+        }
+        _courseController.add(result);
       }
     } catch (e) {
       print(e);

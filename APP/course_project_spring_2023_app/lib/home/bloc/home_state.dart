@@ -15,6 +15,7 @@ class HomeState extends Equatable {
     this.gender = '',
     this.status = FormzSubmissionStatus.initial,
     this.blogs = const <Blog>[],
+    this.courses = const <Course>[],
   });
 
   final Person? user;
@@ -29,6 +30,7 @@ class HomeState extends Equatable {
   final String gender;
   final FormzSubmissionStatus status;
   final List<Blog> blogs;
+  final List<Course> courses;
 
   @override
   List<Object?> get props => [
@@ -44,6 +46,7 @@ class HomeState extends Equatable {
         gender,
         status,
         blogs,
+        courses,
       ];
 
   HomeState copyWith({
@@ -59,6 +62,7 @@ class HomeState extends Equatable {
     String? gender,
     FormzSubmissionStatus? status,
     List<Blog>? blogs,
+    List<Course>? courses,
   }) {
     return HomeState(
       user: user ?? this.user,
@@ -73,6 +77,7 @@ class HomeState extends Equatable {
       gender: gender ?? this.gender,
       status: status ?? this.status,
       blogs: blogs ?? this.blogs,
+      courses: courses ?? this.courses,
     );
   }
 }

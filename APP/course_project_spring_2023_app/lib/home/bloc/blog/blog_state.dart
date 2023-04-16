@@ -1,6 +1,5 @@
 part of 'blog_bloc.dart';
 
-@immutable
 class BlogState extends Equatable {
   BlogState({this.blogs = const <Blog>[], this.token = '', this.added = 0});
 

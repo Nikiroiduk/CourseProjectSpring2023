@@ -11,6 +11,16 @@ import '../../authentication/bloc/authentication_bloc.dart';
 import '../home.dart';
 
 class ProfileView extends StatelessWidget {
+  Map<String, Widget> images = <String, Widget>{
+    "Pull-ups": Image.asset('assets/images/courses/pull-ups.jpg'),
+    "Push-ups": Image.asset('assets/images/courses/push-ups.jpg'),
+    "Dips": Image.asset('assets/images/courses/dips.jpg'),
+    "Burpees": Image.asset('assets/images/courses/burpees.jpg'),
+    "Lunges": Image.asset('assets/images/courses/lunges.jpg'),
+    "Sit-ups": Image.asset('assets/images/courses/sit-ups.jpg'),
+    "Squats": Image.asset('assets/images/courses/squats.jpg'),
+  };
+
   @override
   Widget build(BuildContext context) {
     context.read<HomeBloc>().add(UpdateUserData(context
@@ -21,7 +31,8 @@ class ProfileView extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.isNewUser != current.isNewUser ||
           previous.status != current.status ||
-          previous.isDataFieldsValid != current.isDataFieldsValid,
+          previous.isDataFieldsValid != current.isDataFieldsValid ||
+          previous.courses != current.courses,
       builder: (context, state) {
         return context.select((HomeBloc bloc) => bloc.state.user?.role) ==
                 "User"
@@ -97,7 +108,7 @@ class ProfileView extends StatelessWidget {
                           parent: AlwaysScrollableScrollPhysics()),
                       children: [
                         Text(
-                          "${context.select((HomeBloc bloc) => bloc.state.user?.username)}",
+                          "${context.select((HomeBloc bloc) => bloc.state.user?.username.toUpperCase())}",
                           style: const TextStyle(
                               fontSize: 40, fontWeight: FontWeight.bold),
                         ),
@@ -124,49 +135,98 @@ class ProfileView extends StatelessWidget {
                               fontSize: 30, fontWeight: FontWeight.bold),
                         ),
                         Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(height: 12),
-                            Container(
-                              height: 100,
-                              color: Colors.amber,
-                            ),
-                            const SizedBox(height: 12),
-                            Container(
-                              height: 100,
-                              color: Colors.blueAccent,
-                            ),
-                            const SizedBox(height: 12),
-                            Container(
-                              height: 100,
-                              color: Colors.blueGrey,
-                            ),
-                            const SizedBox(height: 12),
-                            Container(
-                              height: 100,
-                              color: Colors.limeAccent,
-                            ),
-                            const SizedBox(height: 12),
-                            Container(
-                              height: 100,
-                              color: Colors.pink,
-                            ),
-                            const SizedBox(height: 12),
-                            Container(
-                              height: 100,
-                              color: Colors.red,
-                            ),
-                            const SizedBox(height: 12),
-                            Container(
-                              height: 100,
-                              color: Colors.purple,
-                            ),
-                            const SizedBox(height: 12),
-                            Container(
-                              height: 100,
-                              color: Colors.greenAccent,
-                            ),
-                          ],
+                          mainAxisSize: MainAxisSize.max,
+                          children: List<Widget>.generate(
+                              context.select(
+                                  (HomeBloc bloc) => bloc.state.courses.length),
+                              (int index) {
+                            return GestureDetector(
+                              onTap: () async {
+                                // var result = await Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => CoursePage(
+                                //       course: state.courses[index],
+                                //       image: images[state.courses[index].name]
+                                //           as Widget,
+                                //     ),
+                                //   ),
+                                // );
+                                // Object? tmp = await Future.value(result);
+                                // Person p = context.read<HomeBloc>().state.user
+                                //     as Person;
+                                // if (tmp != null && tmp is Course) {
+                                //   p.courses.add(tmp);
+                                //   context
+                                //       .read<HomeBloc>()
+                                //       .add(CoursesChanged(p.courses));
+                                //   context.read<HomeBloc>().add(UpsertUser(
+                                //       context.read<HomeBloc>().state.user
+                                //           as Person));
+                                //}
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 14),
+                                child: Stack(
+                                  fit: StackFit.passthrough,
+                                  alignment: Alignment.bottomLeft,
+                                  children: [
+                                    images[state.courses[index].name] as Widget,
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Colors.transparent,
+                                          Colors.black45,
+                                        ],
+                                      )),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(14.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              decoration: const BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10)),
+                                                color: Color.fromARGB(
+                                                    225, 255, 255, 255),
+                                              ),
+                                              clipBehavior: Clip.none,
+                                              padding: const EdgeInsets.only(
+                                                  left: 10,
+                                                  right: 10,
+                                                  top: 4,
+                                                  bottom: 4),
+                                              child: Text(
+                                                state.courses[index].name,
+                                                style: const TextStyle(
+                                                    fontSize: 32,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black87),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 14,
+                                            ),
+                                            Text(
+                                                '${state.courses[index].exercises.length} exercises'),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
                         ),
                       ],
                     ),

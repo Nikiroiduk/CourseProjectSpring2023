@@ -11,8 +11,9 @@ class Weight extends FormzInput<String, WeightValidationError> {
     if (value.isEmpty) return WeightValidationError.empty;
     if (value.startsWith('0')) return WeightValidationError.zero;
     if (value.startsWith('-')) return WeightValidationError.negative;
-    if (value.contains(RegExp(r'[a-zA-Z]')))
+    if (value.contains(RegExp(r'[a-zA-Z]'))) {
       return WeightValidationError.invalid;
+    }
     return null;
   }
 }
