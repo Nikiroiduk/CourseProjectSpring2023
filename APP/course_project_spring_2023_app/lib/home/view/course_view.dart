@@ -74,19 +74,19 @@ class _Courses extends StatelessWidget {
                           children: [
                             IconButton(
                                 onPressed: () async {
-                                  // var result = await Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) => BlogPageAddEdit(),
-                                  //   ),
-                                  // );
-                                  // Object? tmp = await Future.value(result);
-                                  // if (tmp != null) {
-                                  //   _blog = tmp as Blog;
-                                  //   context
-                                  //       .read<BlogBloc>()
-                                  //       .add(BlogAdded(_blog));
-                                  // }
+                                  var result = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CoursePageAddEdit(),
+                                    ),
+                                  );
+                                  Object? tmp = await Future.value(result);
+                                  if (tmp != null) {
+                                    var _course = tmp as Course;
+                                    context
+                                        .read<CourseBloc>()
+                                        .add(CourseAdded(_course));
+                                  }
                                 },
                                 icon: const Icon(Icons.add_box_rounded))
                           ],
@@ -113,13 +113,19 @@ class _Courses extends StatelessWidget {
                       Object? tmp = await Future.value(result);
                       Person p = context.read<HomeBloc>().state.user as Person;
                       if (tmp != null && tmp is Course) {
-                        p.courses.add(tmp);
-                        context.read<HomeBloc>().add(CoursesChanged(p.courses));
+                        var c = p.courses;
+                        c.add(tmp);
+                        context.read<HomeBloc>().add(CoursesChanged(c));
                         context.read<HomeBloc>().add(UpsertUser(
                             context.read<HomeBloc>().state.user as Person));
                       }
-                      print(context.read<AuthenticationBloc>().state.user);
-                      print(context.read<HomeBloc>().state.user);
+                    },
+                    onDoubleTap: () {
+                      context.read<HomeBloc>().state.user!.role == 'Admin'
+                          ? context
+                              .read<CourseBloc>()
+                              .add(CourseRemoved(state.courses[index]))
+                          : () {};
                     },
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 14),

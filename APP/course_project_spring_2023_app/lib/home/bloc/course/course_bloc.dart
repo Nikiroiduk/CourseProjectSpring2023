@@ -15,6 +15,9 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
     on<_CoursesChanged>(_onCoursesChanged);
     on<TokenChangedCourse>(_onTokenChangedCourse);
     on<AddCourseToUser>(_onAddCourseToUser);
+    on<CourseAdded>(_onCourseAdded);
+    on<CourseUpdated>(_onCourseUpdated);
+    on<CourseRemoved>(_onCourseRemoved);
     _blogsSubscription = _apiRepository.courses
         .listen((courses) => add(_CoursesChanged(courses)));
   }
@@ -41,7 +44,30 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
     AddCourseToUser event,
     Emitter<CourseState> emit,
   ) async {
-    //TODO: Call add course to a user
+    emit(state.copyWith());
+  }
+
+  void _onCourseAdded(
+    CourseAdded event,
+    Emitter<CourseState> emit,
+  ) async {
+    _apiRepository.AddCourse(token: state.token, course: event.course);
+    emit(state.copyWith());
+  }
+
+  void _onCourseUpdated(
+    CourseUpdated event,
+    Emitter<CourseState> emit,
+  ) async {
+    _apiRepository.UpdateCourse(token: state.token, course: event.course);
+    emit(state.copyWith());
+  }
+
+  void _onCourseRemoved(
+    CourseRemoved event,
+    Emitter<CourseState> emit,
+  ) async {
+    _apiRepository.RemoveCourse(token: state.token, course: event.course);
     emit(state.copyWith());
   }
 }

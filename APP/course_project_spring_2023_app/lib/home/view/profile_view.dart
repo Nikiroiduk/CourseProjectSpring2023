@@ -23,10 +23,14 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<HomeBloc>().add(UpdateUserData(context
-        .select((AuthenticationBloc bloc) => bloc.state.user as Person)));
-    context.read<HomeBloc>().add(IsNewUserChanged(context
-        .select((AuthenticationBloc bloc) => bloc.state.user!.isNewPerson)));
+    if (context.select((AuthenticationBloc bloc) => bloc.state.user != null)) {
+      context.read<HomeBloc>().add(UpdateUserData(context
+          .select((AuthenticationBloc bloc) => bloc.state.user as Person)));
+      context.read<HomeBloc>().add(IsNewUserChanged(context
+          .select((AuthenticationBloc bloc) => bloc.state.user!.isNewPerson)));
+      context.read<HomeBloc>().add(CoursesChanged(context
+          .select((AuthenticationBloc bloc) => bloc.state.user!.courses)));
+    }
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (previous, current) =>
           previous.isNewUser != current.isNewUser ||
@@ -107,10 +111,22 @@ class ProfileView extends StatelessWidget {
                       physics: const BouncingScrollPhysics(
                           parent: AlwaysScrollableScrollPhysics()),
                       children: [
-                        Text(
-                          "${context.select((HomeBloc bloc) => bloc.state.user?.username.toUpperCase())}",
-                          style: const TextStyle(
-                              fontSize: 40, fontWeight: FontWeight.bold),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "${context.select((HomeBloc bloc) => bloc.state.user?.username.toUpperCase())}",
+                              style: const TextStyle(
+                                  fontSize: 40, fontWeight: FontWeight.bold),
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  context
+                                      .read<AuthenticationBloc>()
+                                      .add(AuthenticationLogoutRequested());
+                                },
+                                icon: const Icon(Icons.logout_rounded)),
+                          ],
                         ),
                         Text(
                           "${context.select((HomeBloc bloc) => bloc.state.user?.firstName)} "
@@ -141,29 +157,28 @@ class ProfileView extends StatelessWidget {
                                   (HomeBloc bloc) => bloc.state.courses.length),
                               (int index) {
                             return GestureDetector(
-                              onTap: () async {
-                                // var result = await Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => CoursePage(
-                                //       course: state.courses[index],
-                                //       image: images[state.courses[index].name]
-                                //           as Widget,
-                                //     ),
-                                //   ),
-                                // );
-                                // Object? tmp = await Future.value(result);
-                                // Person p = context.read<HomeBloc>().state.user
-                                //     as Person;
-                                // if (tmp != null && tmp is Course) {
-                                //   p.courses.add(tmp);
-                                //   context
-                                //       .read<HomeBloc>()
-                                //       .add(CoursesChanged(p.courses));
-                                //   context.read<HomeBloc>().add(UpsertUser(
-                                //       context.read<HomeBloc>().state.user
-                                //           as Person));
-                                //}
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CoursePage(
+                                      isFromUserPage: true,
+                                      course: state.courses[index],
+                                      image: images[state.courses[index].name]
+                                          as Widget,
+                                    ),
+                                  ),
+                                );
+                              },
+                              onDoubleTap: () {
+                                if (state.user != null) {
+                                  state.user?.courses.removeAt(index);
+                                }
+                                context
+                                    .read<HomeBloc>()
+                                    .add(UpsertUser(state.user as Person));
+                                context.read<HomeBloc>().add(CoursesChanged(
+                                    state.user?.courses as List<Course>));
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(bottom: 14),
@@ -235,9 +250,7 @@ class ProfileView extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: const [
-                    Text('Users list'),
-                    Text('Blogs list'),
-                    Text('Courses list'),
+                    Text('Under development'),
                   ],
                 ),
               );

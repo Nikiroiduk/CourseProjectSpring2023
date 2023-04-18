@@ -26,3 +26,24 @@ class AddCourseToUser extends CourseEvent {
   @override
   List<Object> get props => [course];
 }
+
+class CourseAdded extends CourseEvent {
+  CourseAdded(this.course);
+  final Course course;
+  @override
+  List<Object> get props => [course];
+}
+
+class CourseUpdated extends CourseEvent {
+  CourseUpdated(this.course);
+  final Course course;
+  @override
+  List<Object> get props => [course];
+}
+
+class CourseRemoved extends CourseEvent {
+  CourseRemoved(this.course);
+  final Course course;
+  @override
+  List<Object> get props => [course];
+}

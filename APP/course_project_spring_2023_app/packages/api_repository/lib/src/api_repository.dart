@@ -251,4 +251,72 @@ class ApiRepository {
     }
     return null;
   }
+
+  Future<Object?> AddCourse({
+    required String token,
+    required Course course,
+  }) async {
+    var options = Options(headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    try {
+      var res = await _dio.post('$address/Courses/new',
+          data: course.toJson(), options: options);
+      if (res.statusCode == 200) {
+        GetCourses(token: token);
+      }
+    } catch (e) {
+      print(e);
+      return ApiRepositoryStatus.badRequest;
+    }
+    return null;
+  }
+
+  Future<Object?> UpdateCourse({
+    required String token,
+    required Course course,
+  }) async {
+    var options = Options(headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    try {
+      var res = await _dio.put('$address/Courses/${course.id}',
+          data: course.toJson(), options: options);
+      if (res.statusCode == 200) {
+        GetCourses(token: token);
+      }
+    } catch (e) {
+      print(e);
+      return ApiRepositoryStatus.badRequest;
+    }
+    return null;
+  }
+
+  Future<Object?> RemoveCourse({
+    required String token,
+    required Course course,
+  }) async {
+    var options = Options(headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer ${token}",
+    });
+    try {
+      var res =
+          await _dio.delete('$address/Courses/${course.id}', options: options);
+      if (res.statusCode == 200) {
+        GetCourses(token: token);
+      }
+    } catch (e) {
+      print(e);
+      return ApiRepositoryStatus.badRequest;
+    }
+    return null;
+  }
+
+  void dispose() {
+    _controller.close();
+    _courseController.close();
+  }
 }

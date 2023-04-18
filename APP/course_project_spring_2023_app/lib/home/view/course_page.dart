@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:timelines/timelines.dart';
 
 class CoursePage extends StatelessWidget {
-  CoursePage({required Course course, required Widget image})
+  CoursePage(
+      {required Course course,
+      required Widget image,
+      this.isFromUserPage = false})
       : _course = course,
         _image = image;
 
+  late bool isFromUserPage;
   final Course _course;
   final Widget _image;
   List<int>? _approaches;
@@ -15,15 +19,17 @@ class CoursePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: IconButton(
-        icon: const Icon(
-          Icons.add_circle_rounded,
-          size: 60,
-        ),
-        onPressed: () {
-          Navigator.pop<Course>(context, _course);
-        },
-      ),
+      floatingActionButton: isFromUserPage
+          ? Container()
+          : IconButton(
+              icon: const Icon(
+                Icons.add_circle_rounded,
+                size: 60,
+              ),
+              onPressed: () {
+                Navigator.pop<Course>(context, _course);
+              },
+            ),
       extendBodyBehindAppBar: true,
       extendBody: true,
       body: ListView(

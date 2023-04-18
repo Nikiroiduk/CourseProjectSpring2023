@@ -70,8 +70,10 @@ class _Blogs extends StatelessWidget {
     for (var blog in context.read<BlogBloc>().state.blogs) {
       times.add((Random().nextInt(19) + 3).toString());
     }
-    context.read<BlogBloc>().add(
-        TokenChanged(context.read<AuthenticationBloc>().state.user!.token));
+    if (context.read<AuthenticationBloc>().state.user != null) {
+      context.read<BlogBloc>().add(
+          TokenChanged(context.read<AuthenticationBloc>().state.user!.token));
+    }
     return BlocBuilder<BlogBloc, BlogState>(
       buildWhen: (previous, current) =>
           previous.blogs != current.blogs || previous.added != current.added,
@@ -208,7 +210,7 @@ class _Blogs extends StatelessWidget {
                                           fontSize: 32,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    index >= 0
+                                    index >= 0 && times.isNotEmpty
                                         ? Text('${times[index]} minutes')
                                         : Container(),
                                   ]),
