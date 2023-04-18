@@ -1,0 +1,806 @@
+@startuml flutterApp
+set namespaceSeparator ::
+
+class "course_project_spring_2023_app::app.dart::App" {
+  +State<App> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "course_project_spring_2023_app::app.dart::App"
+
+class "course_project_spring_2023_app::app.dart::_AppState" {
+  -AuthenticationRepository _authenticationRepository
+  +void initState()
+  +void dispose()
+  +Widget build()
+}
+
+"course_project_spring_2023_app::app.dart::_AppState" o-- "authentication_repository::src::authentication_repository.dart::AuthenticationRepository"
+"flutter::src::widgets::framework.dart::State" <|-- "course_project_spring_2023_app::app.dart::_AppState"
+
+class "course_project_spring_2023_app::app.dart::AppView" {
+  +State<AppView> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "course_project_spring_2023_app::app.dart::AppView"
+
+class "course_project_spring_2023_app::app.dart::_AppViewState" {
+  -GlobalKey<NavigatorState> _navigatorKey
+  -NavigatorState _navigator
+  +Widget build()
+}
+
+"course_project_spring_2023_app::app.dart::_AppViewState" o-- "flutter::src::widgets::framework.dart::GlobalKey<NavigatorState>"
+"course_project_spring_2023_app::app.dart::_AppViewState" o-- "flutter::src::widgets::navigator.dart::NavigatorState"
+"flutter::src::widgets::framework.dart::State" <|-- "course_project_spring_2023_app::app.dart::_AppViewState"
+
+class "course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::AuthenticationBloc" {
+  -AuthenticationRepository _authenticationRepository
+  -StreamSubscription<AuthenticationStatus> _authenticationStatusSubscription
+  +Future<void> close()
+  -Future<void> _onAuthenticationStatusChanged()
+  -void _onAuthenticationLogoutRequested()
+}
+
+"course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::AuthenticationBloc" o-- "authentication_repository::src::authentication_repository.dart::AuthenticationRepository"
+"course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::AuthenticationBloc" o-- "dart::async::StreamSubscription<AuthenticationStatus>"
+"bloc::src::bloc.dart::Bloc" <|-- "course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::AuthenticationBloc"
+
+abstract class "course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::AuthenticationEvent" {
+}
+
+class "course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::_AuthenticationStatusChanged" {
+  +AuthenticationStatus status
+}
+
+"course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::_AuthenticationStatusChanged" o-- "authentication_repository::src::authentication_repository.dart::AuthenticationStatus"
+"course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::AuthenticationEvent" <|-- "course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::_AuthenticationStatusChanged"
+
+class "course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::AuthenticationLogoutRequested" {
+}
+
+"course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::AuthenticationEvent" <|-- "course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::AuthenticationLogoutRequested"
+
+class "course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::AuthenticationState" {
+  +AuthenticationStatus status
+  +Person? user
+  +List<Object?> props
+}
+
+"course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::AuthenticationState" o-- "authentication_repository::src::authentication_repository.dart::AuthenticationStatus"
+"course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::AuthenticationState" o-- "api_repository::src::models::person.dart::Person"
+"equatable::src::equatable.dart::Equatable" <|-- "course_project_spring_2023_app::authentication::bloc::authentication_bloc.dart::AuthenticationState"
+
+class "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogBloc" {
+  -ApiRepository _apiRepository
+  -StreamSubscription<List<Blog>> _blogsSubscription
+  +Future<void> close()
+  -void _onBlogsChanged()
+  -void _onTokenChanged()
+  -void _onBlogDeleted()
+  -void _onBlogAdded()
+  -void _onBlogUpdated()
+}
+
+"course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogBloc" o-- "api_repository::src::api_repository.dart::ApiRepository"
+"course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogBloc" o-- "dart::async::StreamSubscription<List<Blog>>"
+"bloc::src::bloc.dart::Bloc" <|-- "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogBloc"
+
+abstract class "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogEvent" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogEvent"
+
+class "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::_BlogsChanged" {
+  +List<Blog> blogs
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogEvent" <|-- "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::_BlogsChanged"
+
+class "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::TokenChanged" {
+  +String token
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogEvent" <|-- "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::TokenChanged"
+
+class "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogsRefresh" {
+}
+
+"course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogEvent" <|-- "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogsRefresh"
+
+class "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogsLoad" {
+}
+
+"course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogEvent" <|-- "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogsLoad"
+
+class "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogDeleted" {
+  +Blog blog
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogDeleted" o-- "api_repository::src::models::blog.dart::Blog"
+"course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogEvent" <|-- "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogDeleted"
+
+class "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogUpdated" {
+  +Blog blog
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogUpdated" o-- "api_repository::src::models::blog.dart::Blog"
+"course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogEvent" <|-- "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogUpdated"
+
+class "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogAdded" {
+  +Blog blog
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogAdded" o-- "api_repository::src::models::blog.dart::Blog"
+"course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogEvent" <|-- "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogAdded"
+
+class "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogState" {
+  +List<Blog> blogs
+  +String token
+  +int added
+  +List<Object> props
+  +BlogState copyWith()
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogState"
+
+class "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::Loading" {
+}
+
+"course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogState" <|-- "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::Loading"
+
+class "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::Loaded" {
+  +List<Blog> items
+}
+
+"course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogState" <|-- "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::Loaded"
+
+class "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::Refresh" {
+}
+
+"course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::BlogState" <|-- "course_project_spring_2023_app::home::bloc::blog::blog_bloc.dart::Refresh"
+
+class "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseBloc" {
+  -ApiRepository _apiRepository
+  -StreamSubscription<List<Course>> _blogsSubscription
+  -void _onCoursesChanged()
+  -void _onTokenChangedCourse()
+  -void _onAddCourseToUser()
+  -void _onCourseAdded()
+  -void _onCourseUpdated()
+  -void _onCourseRemoved()
+}
+
+"course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseBloc" o-- "api_repository::src::api_repository.dart::ApiRepository"
+"course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseBloc" o-- "dart::async::StreamSubscription<List<Course>>"
+"bloc::src::bloc.dart::Bloc" <|-- "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseBloc"
+
+abstract class "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseEvent" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseEvent"
+
+class "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::TokenChangedCourse" {
+  +String token
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseEvent" <|-- "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::TokenChangedCourse"
+
+class "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::_CoursesChanged" {
+  +List<Course> courses
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseEvent" <|-- "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::_CoursesChanged"
+
+class "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::AddCourseToUser" {
+  +Course course
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::course::course_bloc.dart::AddCourseToUser" o-- "api_repository::src::models::course.dart::Course"
+"course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseEvent" <|-- "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::AddCourseToUser"
+
+class "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseAdded" {
+  +Course course
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseAdded" o-- "api_repository::src::models::course.dart::Course"
+"course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseEvent" <|-- "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseAdded"
+
+class "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseUpdated" {
+  +Course course
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseUpdated" o-- "api_repository::src::models::course.dart::Course"
+"course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseEvent" <|-- "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseUpdated"
+
+class "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseRemoved" {
+  +Course course
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseRemoved" o-- "api_repository::src::models::course.dart::Course"
+"course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseEvent" <|-- "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseRemoved"
+
+class "course_project_spring_2023_app::home::bloc::course::course_bloc.dart::CourseState" {
+  +List<Course> courses
+  +String token
+  +CourseState copyWith()
+}
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeBloc" {
+  -void _onNewScreenSelected()
+  -void _onIsNewUserChanged()
+  -void _onUpdateUserData()
+  -void _onFirstNameChanged()
+  -void _onLastNameChanged()
+  -void _onWeightChanged()
+  -void _onHeightChanged()
+  -void _onGenderChanged()
+  -void _onBirthDateChanged()
+  -void _onNewUserDataSubmitted()
+  -void _onUpsertUser()
+  -void _onCoursesChanged()
+}
+
+"bloc::src::bloc.dart::Bloc" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeBloc"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeTab" {
+  +int index
+  {static} +List<HomeTab> values
+  {static} +HomeTab blog
+  {static} +HomeTab course
+  {static} +HomeTab profile
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeTab" o-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeTab"
+"dart::core::Enum" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeTab"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::Gender" {
+  +int index
+  {static} +List<Gender> values
+  {static} +Gender male
+  {static} +Gender female
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::Gender" o-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::Gender"
+"dart::core::Enum" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::Gender"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::BlogsState" {
+  +int index
+  {static} +List<BlogsState> values
+  {static} +BlogsState loading
+  {static} +BlogsState loaded
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::BlogsState" o-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::BlogsState"
+"dart::core::Enum" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::BlogsState"
+
+abstract class "course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeEvent" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeEvent"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::NewScreenSelected" {
+  -HomeTab _value
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::NewScreenSelected" o-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeTab"
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeEvent" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::NewScreenSelected"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::IsNewUserChanged" {
+  -bool _value
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeEvent" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::IsNewUserChanged"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::UpdateUserData" {
+  -Person _value
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::UpdateUserData" o-- "api_repository::src::models::person.dart::Person"
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeEvent" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::UpdateUserData"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::FirstNameChanged" {
+  -String _value
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeEvent" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::FirstNameChanged"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::LastNameChanged" {
+  -String _value
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeEvent" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::LastNameChanged"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::WeightChanged" {
+  -String _value
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeEvent" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::WeightChanged"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::HeightChanged" {
+  -String _value
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeEvent" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::HeightChanged"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::BirthDateChanged" {
+  -DateTime _value
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeEvent" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::BirthDateChanged"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::GenderChanged" {
+  -String _value
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeEvent" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::GenderChanged"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::NewUserDataSubmitted" {
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeEvent" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::NewUserDataSubmitted"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::UpdateBlogsRequested" {
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeEvent" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::UpdateBlogsRequested"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::UpsertUser" {
+  +Person user
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::UpsertUser" o-- "api_repository::src::models::person.dart::Person"
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeEvent" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::UpsertUser"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::CoursesChanged" {
+  +List<Course> courses
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeEvent" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::CoursesChanged"
+
+class "course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeState" {
+  +Person? user
+  +HomeTab value
+  +bool isNewUser
+  +FirstName firstName
+  +LastName lastName
+  +bool isDataFieldsValid
+  +DateTime? birthDate
+  +Weight weight
+  +Height height
+  +String gender
+  +FormzSubmissionStatus status
+  +List<Blog> blogs
+  +List<Course> courses
+  +List<Object?> props
+  +HomeState copyWith()
+}
+
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeState" o-- "api_repository::src::models::person.dart::Person"
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeState" o-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeTab"
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeState" o-- "course_project_spring_2023_app::home::models::first_name.dart::FirstName"
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeState" o-- "course_project_spring_2023_app::home::models::last_name.dart::LastName"
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeState" o-- "course_project_spring_2023_app::home::models::weight.dart::Weight"
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeState" o-- "course_project_spring_2023_app::home::models::height.dart::Height"
+"course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeState" o-- "formz::formz.dart::FormzSubmissionStatus"
+"equatable::src::equatable.dart::Equatable" <|-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeState"
+
+class "course_project_spring_2023_app::home::models::first_name.dart::FirstName" {
+  +FirstNameValidationError? validator()
+}
+
+"formz::formz.dart::FormzInput" <|-- "course_project_spring_2023_app::home::models::first_name.dart::FirstName"
+
+class "course_project_spring_2023_app::home::models::first_name.dart::FirstNameValidationError" {
+  +int index
+  {static} +List<FirstNameValidationError> values
+  {static} +FirstNameValidationError empty
+}
+
+"course_project_spring_2023_app::home::models::first_name.dart::FirstNameValidationError" o-- "course_project_spring_2023_app::home::models::first_name.dart::FirstNameValidationError"
+"dart::core::Enum" <|-- "course_project_spring_2023_app::home::models::first_name.dart::FirstNameValidationError"
+
+class "course_project_spring_2023_app::home::models::height.dart::Height" {
+  +HeightValidationError? validator()
+}
+
+"formz::formz.dart::FormzInput" <|-- "course_project_spring_2023_app::home::models::height.dart::Height"
+
+class "course_project_spring_2023_app::home::models::height.dart::HeightValidationError" {
+  +int index
+  {static} +List<HeightValidationError> values
+  {static} +HeightValidationError empty
+  {static} +HeightValidationError negative
+  {static} +HeightValidationError zero
+  {static} +HeightValidationError text
+  {static} +HeightValidationError short
+  {static} +HeightValidationError invalid
+}
+
+"course_project_spring_2023_app::home::models::height.dart::HeightValidationError" o-- "course_project_spring_2023_app::home::models::height.dart::HeightValidationError"
+"dart::core::Enum" <|-- "course_project_spring_2023_app::home::models::height.dart::HeightValidationError"
+
+class "course_project_spring_2023_app::home::models::last_name.dart::LastName" {
+  +LastNameValidationError? validator()
+}
+
+"formz::formz.dart::FormzInput" <|-- "course_project_spring_2023_app::home::models::last_name.dart::LastName"
+
+class "course_project_spring_2023_app::home::models::last_name.dart::LastNameValidationError" {
+  +int index
+  {static} +List<LastNameValidationError> values
+  {static} +LastNameValidationError empty
+}
+
+"course_project_spring_2023_app::home::models::last_name.dart::LastNameValidationError" o-- "course_project_spring_2023_app::home::models::last_name.dart::LastNameValidationError"
+"dart::core::Enum" <|-- "course_project_spring_2023_app::home::models::last_name.dart::LastNameValidationError"
+
+class "course_project_spring_2023_app::home::models::weight.dart::Weight" {
+  +WeightValidationError? validator()
+}
+
+"formz::formz.dart::FormzInput" <|-- "course_project_spring_2023_app::home::models::weight.dart::Weight"
+
+class "course_project_spring_2023_app::home::models::weight.dart::WeightValidationError" {
+  +int index
+  {static} +List<WeightValidationError> values
+  {static} +WeightValidationError empty
+  {static} +WeightValidationError negative
+  {static} +WeightValidationError zero
+  {static} +WeightValidationError text
+  {static} +WeightValidationError short
+  {static} +WeightValidationError invalid
+}
+
+"course_project_spring_2023_app::home::models::weight.dart::WeightValidationError" o-- "course_project_spring_2023_app::home::models::weight.dart::WeightValidationError"
+"dart::core::Enum" <|-- "course_project_spring_2023_app::home::models::weight.dart::WeightValidationError"
+
+class "course_project_spring_2023_app::home::view::blog_page.dart::BlogPage" {
+  -Blog _blog
+  -Widget _image
+  -String _time
+  +Widget build()
+}
+
+"course_project_spring_2023_app::home::view::blog_page.dart::BlogPage" o-- "api_repository::src::models::blog.dart::Blog"
+"course_project_spring_2023_app::home::view::blog_page.dart::BlogPage" o-- "flutter::src::widgets::framework.dart::Widget"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::home::view::blog_page.dart::BlogPage"
+
+class "course_project_spring_2023_app::home::view::blog_page_add_edit.dart::BlogPageAddEdit" {
+  +Blog? blog
+  +State<BlogPageAddEdit> createState()
+}
+
+"course_project_spring_2023_app::home::view::blog_page_add_edit.dart::BlogPageAddEdit" o-- "api_repository::src::models::blog.dart::Blog"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "course_project_spring_2023_app::home::view::blog_page_add_edit.dart::BlogPageAddEdit"
+
+class "course_project_spring_2023_app::home::view::blog_page_add_edit.dart::_BlogPageAddEditState" {
+  -Blog? _blog
+  -String _name
+  -String _content
+  -List<Tag> _tags
+  -String _tag
+  -TextEditingController _nameController
+  -TextEditingController _contentController
+  +String AddUpdateBtn
+  +void initState()
+  +void dispose()
+  +Widget build()
+}
+
+"course_project_spring_2023_app::home::view::blog_page_add_edit.dart::_BlogPageAddEditState" o-- "api_repository::src::models::blog.dart::Blog"
+"course_project_spring_2023_app::home::view::blog_page_add_edit.dart::_BlogPageAddEditState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "course_project_spring_2023_app::home::view::blog_page_add_edit.dart::_BlogPageAddEditState"
+
+class "course_project_spring_2023_app::home::view::blog_view.dart::BlogView" {
+  +State<BlogView> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "course_project_spring_2023_app::home::view::blog_view.dart::BlogView"
+
+class "course_project_spring_2023_app::home::view::blog_view.dart::_BlogViewState" {
+  -dynamic _apiRepository
+  +void initState()
+  +void dispose()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "course_project_spring_2023_app::home::view::blog_view.dart::_BlogViewState"
+
+class "course_project_spring_2023_app::home::view::blog_view.dart::_Blogs" {
+  +List<Widget> images
+  +List<String> times
+  -Blog _blog
+  +Widget build()
+}
+
+"course_project_spring_2023_app::home::view::blog_view.dart::_Blogs" o-- "api_repository::src::models::blog.dart::Blog"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::home::view::blog_view.dart::_Blogs"
+
+class "course_project_spring_2023_app::home::view::course_page.dart::CoursePage" {
+  +bool isFromUserPage
+  -Course _course
+  -Widget _image
+  -List<int>? _approaches
+  +Widget build()
+}
+
+"course_project_spring_2023_app::home::view::course_page.dart::CoursePage" o-- "api_repository::src::models::course.dart::Course"
+"course_project_spring_2023_app::home::view::course_page.dart::CoursePage" o-- "flutter::src::widgets::framework.dart::Widget"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::home::view::course_page.dart::CoursePage"
+
+class "course_project_spring_2023_app::home::view::course_page_add_edit.dart::CoursePageAddEdit" {
+  +Course? course
+  +State<CoursePageAddEdit> createState()
+}
+
+"course_project_spring_2023_app::home::view::course_page_add_edit.dart::CoursePageAddEdit" o-- "api_repository::src::models::course.dart::Course"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "course_project_spring_2023_app::home::view::course_page_add_edit.dart::CoursePageAddEdit"
+
+class "course_project_spring_2023_app::home::view::course_page_add_edit.dart::_CoursePageAddEditState" {
+  -TextEditingController _nameController
+  +Course? course
+  -List<Exercise> _exercises
+  -String _exercise
+  +void initState()
+  +void dispose()
+  +Widget build()
+}
+
+"course_project_spring_2023_app::home::view::course_page_add_edit.dart::_CoursePageAddEditState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"course_project_spring_2023_app::home::view::course_page_add_edit.dart::_CoursePageAddEditState" o-- "api_repository::src::models::course.dart::Course"
+"flutter::src::widgets::framework.dart::State" <|-- "course_project_spring_2023_app::home::view::course_page_add_edit.dart::_CoursePageAddEditState"
+
+class "course_project_spring_2023_app::home::view::course_view.dart::CourseView" {
+  +State<CourseView> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "course_project_spring_2023_app::home::view::course_view.dart::CourseView"
+
+class "course_project_spring_2023_app::home::view::course_view.dart::_CourseViewState" {
+  -dynamic _apiRepository
+  +void initState()
+  +void dispose()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "course_project_spring_2023_app::home::view::course_view.dart::_CourseViewState"
+
+class "course_project_spring_2023_app::home::view::course_view.dart::_Courses" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::home::view::course_view.dart::_Courses"
+
+class "course_project_spring_2023_app::home::view::home_page.dart::HomePage" {
+  {static} +Route<void> route()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::home::view::home_page.dart::HomePage"
+
+class "course_project_spring_2023_app::home::view::home_page.dart::HomeView" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::home::view::home_page.dart::HomeView"
+
+class "course_project_spring_2023_app::home::view::home_page.dart::_HomeTabButton" {
+  +HomeTab groupValue
+  +HomeTab value
+  +Widget icon
+  +String label
+  +Widget build()
+}
+
+"course_project_spring_2023_app::home::view::home_page.dart::_HomeTabButton" o-- "course_project_spring_2023_app::home::bloc::home_bloc.dart::HomeTab"
+"course_project_spring_2023_app::home::view::home_page.dart::_HomeTabButton" o-- "flutter::src::widgets::framework.dart::Widget"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::home::view::home_page.dart::_HomeTabButton"
+
+class "course_project_spring_2023_app::home::view::profile_view.dart::ProfileView" {
+  +Map<String, Widget> images
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::home::view::profile_view.dart::ProfileView"
+
+class "course_project_spring_2023_app::home::view::profile_view.dart::_FirstNameInput" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::home::view::profile_view.dart::_FirstNameInput"
+
+class "course_project_spring_2023_app::home::view::profile_view.dart::_LastNameInput" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::home::view::profile_view.dart::_LastNameInput"
+
+class "course_project_spring_2023_app::home::view::profile_view.dart::_WeightInput" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::home::view::profile_view.dart::_WeightInput"
+
+class "course_project_spring_2023_app::home::view::profile_view.dart::_HeightInput" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::home::view::profile_view.dart::_HeightInput"
+
+class "course_project_spring_2023_app::home::view::profile_view.dart::_SendButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::home::view::profile_view.dart::_SendButton"
+
+class "course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginBloc" {
+  -AuthenticationRepository _authenticationRepository
+  -void _onUsernameChanged()
+  -void _onPasswordChanged()
+  -void _onSignUpCheckboxChanged()
+  -Future<void> _onLoginSubmitted()
+  -Future<void> _onSignUpSubmitted()
+}
+
+"course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginBloc" o-- "authentication_repository::src::authentication_repository.dart::AuthenticationRepository"
+"bloc::src::bloc.dart::Bloc" <|-- "course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginBloc"
+
+abstract class "course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginEvent" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginEvent"
+
+class "course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginUsernameChanged" {
+  +String username
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginEvent" <|-- "course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginUsernameChanged"
+
+class "course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginPasswordChanged" {
+  +String password
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginEvent" <|-- "course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginPasswordChanged"
+
+class "course_project_spring_2023_app::login::bloc::login_bloc.dart::SignUpCheckboxChanged" {
+  +bool isNewUser
+  +List<Object> props
+}
+
+"course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginEvent" <|-- "course_project_spring_2023_app::login::bloc::login_bloc.dart::SignUpCheckboxChanged"
+
+class "course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginSubmitted" {
+}
+
+"course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginEvent" <|-- "course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginSubmitted"
+
+class "course_project_spring_2023_app::login::bloc::login_bloc.dart::SignUpSumbitted" {
+}
+
+"course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginEvent" <|-- "course_project_spring_2023_app::login::bloc::login_bloc.dart::SignUpSumbitted"
+
+class "course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginState" {
+  +FormzSubmissionStatus status
+  +bool isValid
+  +Username username
+  +Password password
+  +bool isNewUser
+  +List<Object> props
+  +LoginState copyWith()
+}
+
+"course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginState" o-- "formz::formz.dart::FormzSubmissionStatus"
+"course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginState" o-- "course_project_spring_2023_app::login::models::username.dart::Username"
+"course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginState" o-- "course_project_spring_2023_app::login::models::password.dart::Password"
+"equatable::src::equatable.dart::Equatable" <|-- "course_project_spring_2023_app::login::bloc::login_bloc.dart::LoginState"
+
+class "course_project_spring_2023_app::login::models::password.dart::Password" {
+  +PasswordValidationError? validator()
+}
+
+"formz::formz.dart::FormzInput" <|-- "course_project_spring_2023_app::login::models::password.dart::Password"
+
+class "course_project_spring_2023_app::login::models::password.dart::PasswordValidationError" {
+  +int index
+  {static} +List<PasswordValidationError> values
+  {static} +PasswordValidationError empty
+}
+
+"course_project_spring_2023_app::login::models::password.dart::PasswordValidationError" o-- "course_project_spring_2023_app::login::models::password.dart::PasswordValidationError"
+"dart::core::Enum" <|-- "course_project_spring_2023_app::login::models::password.dart::PasswordValidationError"
+
+class "course_project_spring_2023_app::login::models::username.dart::Username" {
+  +UsernameValidationError? validator()
+}
+
+"formz::formz.dart::FormzInput" <|-- "course_project_spring_2023_app::login::models::username.dart::Username"
+
+class "course_project_spring_2023_app::login::models::username.dart::UsernameValidationError" {
+  +int index
+  {static} +List<UsernameValidationError> values
+  {static} +UsernameValidationError empty
+}
+
+"course_project_spring_2023_app::login::models::username.dart::UsernameValidationError" o-- "course_project_spring_2023_app::login::models::username.dart::UsernameValidationError"
+"dart::core::Enum" <|-- "course_project_spring_2023_app::login::models::username.dart::UsernameValidationError"
+
+class "course_project_spring_2023_app::login::view::login_form.dart::LoginForm" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::login::view::login_form.dart::LoginForm"
+
+class "course_project_spring_2023_app::login::view::login_form.dart::_UsernameInput" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::login::view::login_form.dart::_UsernameInput"
+
+class "course_project_spring_2023_app::login::view::login_form.dart::_PasswordInput" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::login::view::login_form.dart::_PasswordInput"
+
+class "course_project_spring_2023_app::login::view::login_form.dart::_LoginButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::login::view::login_form.dart::_LoginButton"
+
+class "course_project_spring_2023_app::login::view::login_form.dart::_SignUpCheckbox" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::login::view::login_form.dart::_SignUpCheckbox"
+
+class "course_project_spring_2023_app::login::view::login_page.dart::LoginPage" {
+  {static} +Route<void> route()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::login::view::login_page.dart::LoginPage"
+
+class "course_project_spring_2023_app::main.dart::MyHttpOverrides" {
+  +HttpClient createHttpClient()
+}
+
+"dart::_http::HttpOverrides" <|-- "course_project_spring_2023_app::main.dart::MyHttpOverrides"
+
+class "course_project_spring_2023_app::splash::view::splash_page.dart::SplashPage" {
+  {static} +Route<void> route()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "course_project_spring_2023_app::splash::view::splash_page.dart::SplashPage"
+
+
+@enduml

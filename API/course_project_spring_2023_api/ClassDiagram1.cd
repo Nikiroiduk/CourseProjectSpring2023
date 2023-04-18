@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="course_project_spring_2023_api.Controllers.BlogsController" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAABAAAAAAAAAAAAAEAAQAAAgAEAAAAAIA=</HashCode>
+      <FileName>Controllers\BlogsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Controllers.CoursesController" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAEAABAAAAAAAAAAAAAEAAQAAAgAAAAAAAIA=</HashCode>
+      <FileName>Controllers\CoursesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Controllers.PersonsController" Collapsed="true">
+    <Position X="5.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAEAABAAAAABAAAIAIAAAAAAIAgAAAAgAAAA=</HashCode>
+      <FileName>Controllers\PersonsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Helpers.AppSettings" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Helpers\AppSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Context.ApiContext" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEEAAAEAAAAAAABEAAAA=</HashCode>
+      <FileName>Context\ApiContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.DTO.AuthenticateModel" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAgAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DTO\AuthenticateModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.DTO.NewBlogModel" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAQAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DTO\NewBlogModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.DTO.NewCourseModel" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DTO\NewCourseModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.DTO.NewExerciseModel" Collapsed="true">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DTO\NewExerciseModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.DTO.RegistrateModel" Collapsed="true">
+    <Position X="0.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DTO\RegistrateModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.Blog" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAgAAAAAAAAAAAAQAAAAAAEAAAAACAAEAAAA=</HashCode>
+      <FileName>Models\Blog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.BlogTag" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\BlogTag.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.Course" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAEAAAQAAAAAAAAAAAACAAEAAAA=</HashCode>
+      <FileName>Models\Course.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.Difficulty" Collapsed="true">
+    <Position X="9.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEGAAAAAAAAAAAAAAAAAIAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Models\Difficulty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.Exercise" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAGAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Exercise.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.Gender" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Models\Gender.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.Person" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAEAABAAgAACAEQAgAAAAAWAIAAACAEACABABAAg=</HashCode>
+      <FileName>Models\Person.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.PersonBlog" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\PersonBlog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.PersonCourse" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\PersonCourse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.Role" Collapsed="true">
+    <Position X="2.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Role.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Models.Tag" Collapsed="true">
+    <Position X="5.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Tag.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Services.BlogServices.BlogService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAECAAAAAAAAAAAAAAAAAAQAAAgAAAAAAAAA=</HashCode>
+      <FileName>Services\BlogServices\BlogService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="course_project_spring_2023_api.Services.CourseServices.CourseService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAQAAAAAAAAAAAAAAAAQAAAgAAIAAAAAA=</HashCode>
+      <FileName>Services\CourseServices\CourseService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="course_project_spring_2023_api.Services.PersonServices.PersonService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAIAAAABAQAAAgAAABgAAAA=</HashCode>
+      <FileName>Services\PersonServices\PersonService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="course_project_spring_2023_api.Services.DbInitializer" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DbInitializer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Services.PasswordService" Collapsed="true">
+    <Position X="9.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAgAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Services\PasswordService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="course_project_spring_2023_api.Services.Startup" Collapsed="true">
+    <Position X="4" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAgAAACAAAAAA=</HashCode>
+      <FileName>Services\Startup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Program" Collapsed="true">
+    <Position X="9.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAE=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="course_project_spring_2023_api.Services.BlogServices.IBlogService" Collapsed="true">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAECAAAAAAAAAAAAAAAAAAQAAAgAAAAAAAAA=</HashCode>
+      <FileName>Services\BlogServices\IBlogService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="course_project_spring_2023_api.Services.CourseServices.ICourseService" Collapsed="true">
+    <Position X="2.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAQAAAAAAAAAAAAAAAAQAAAgAAIAAAAAA=</HashCode>
+      <FileName>Services\CourseServices\ICourseService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="course_project_spring_2023_api.Services.PersonServices.IPersonService" Collapsed="true">
+    <Position X="4" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAIAAAABAQAAAgAAAAgAAAA=</HashCode>
+      <FileName>Services\PersonServices\IPersonService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -28,6 +28,7 @@ dependencies:
   date_field: ^3.0.5
   intl: ^0.18.0
   timelines: ^0.1.0
+  dcdg: ^4.1.0
 
 dev_dependencies:
   flutter_test:
